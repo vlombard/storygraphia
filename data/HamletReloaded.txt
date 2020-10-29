@@ -1,0 +1,5 @@
+U_001: Amleto entra per caso nella stanza di Ofelia
+U_002: Amleto entra nella stanza di Ofelia mandato da Polonio
+U_003: Ofelia accoglie Amleto, manifestandogli le sue perplessità sulla permanenza alla corte di Elsinore 
+U_004: Amleto accusa Ofelia di tendergli un tranello
+U_005: Amleto propone a Ofelia il piano della messinscena  
