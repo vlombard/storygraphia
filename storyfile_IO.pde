@@ -22,7 +22,30 @@ void write_storygraph(File selection) { // responds to command 'w'; File is a Ja
         json_node.setFloat("y", u.y);
         json_node.setFloat("w", u.w);
         json_node.setFloat("h", u.h);
-        json_node.setString("tag", u.tag);
+        // TAGS: save unit tags: first tag is the characterizing tag for positioning 
+        JSONArray json_unit_tags; json_unit_tags = new JSONArray();
+        for (int j=0; j<u.node_tags_counter; j++) {
+          JSONObject json_tag = new JSONObject(); json_tag.setString(str(j), u.node_tags[j]);
+          json_unit_tags.setJSONObject(j,json_tag);
+        }
+        json_node.setJSONArray("unit tags", json_unit_tags);
+        // PROPP TAG
+        json_node.setFloat("unit propp tag index", u.unit_propp_tag_index);
+        // CONSTRAINTS: preconditions and effects
+        JSONArray json_unit_preconditions; json_unit_preconditions = new JSONArray();
+        for (int j=0; j<u.unit_preconditions_counter; j++) {
+          JSONObject json_precondition = new JSONObject(); json_precondition.setString(str(j), u.unit_preconditions[j]);
+          json_unit_preconditions.setJSONObject(j,json_precondition);
+        }
+        json_node.setJSONArray("unit preconditions", json_unit_preconditions);
+        JSONArray json_unit_effects; json_unit_effects = new JSONArray();
+        for (int j=0; j<u.unit_effects_counter; j++) {
+          JSONObject json_effect = new JSONObject(); json_effect.setString(str(j), u.unit_effects[j]);
+          json_unit_effects.setJSONObject(j,json_effect);
+        }
+        json_node.setJSONArray("unit effects", json_unit_effects);
+        // TENSION
+        json_node.setInt("unit tension", u.unit_tension);
         // save unit agents
         JSONArray json_unit_agents; json_unit_agents = new JSONArray();
         for (int j=0; j<u.unit_agents_counter; j++) {
@@ -62,7 +85,22 @@ void write_storygraph(File selection) { // responds to command 'w'; File is a Ja
       //}
     }
     json_graph.setJSONArray("agents", json_agents);
-
+    // save tags
+    JSONArray json_tags; json_tags = new JSONArray(); int tag_counter=0;
+    for (int i=0; i<i_cur_tag; i++) {
+      JSONObject json_tag = new JSONObject();
+      json_tag.setString("name", tags[i].name);
+      json_tags.setJSONObject(tag_counter++, json_tag);
+    }
+    json_graph.setJSONArray("tags", json_tags);
+    // save states (preconditions and effects)
+    JSONArray json_states; json_states = new JSONArray(); int state_counter=0;
+    for (int i=0; i<i_cur_state; i++) {
+      JSONObject json_state = new JSONObject();
+      json_state.setString("name", states_names[i]);
+      json_states.setJSONObject(state_counter++, json_state);
+    }
+    json_graph.setJSONArray("states", json_states);
     // write array in file
     saveJSONObject(json_graph, selection.getAbsolutePath());
   }
@@ -86,11 +124,46 @@ void load_storygraph(File selection) { // File is a Java class
     JSONArray json_nodes = json_graph.getJSONArray("units"); i_cur_node=json_nodes.size();
     for (int i=0; i<i_cur_node; i++) {
       JSONObject json_node = json_nodes.getJSONObject(i);
-        //println("load_storygraph: node is " + json_node.getString("id"));
+      //println("load_storygraph: node is " + json_node.getString("id"));
       // Node(float x_aux, float y_aux, String id_aux, String text_aux, String tag_aux)
       Unit u = new Unit(json_node.getFloat("x")*zoom, json_node.getFloat("y")*zoom, 
                           json_node.getFloat("w")*zoom, json_node.getFloat("h")*zoom, 
-                          json_node.getString("id"), json_node.getString("text"), json_node.getString("tag"));       
+                          json_node.getString("id"), json_node.getString("text"), "NULL TAG");       
+      // TAGS
+      JSONArray json_unit_tags = json_node.getJSONArray("unit tags"); int tags_number=json_unit_tags.size();
+      if (tags_number > 0) {
+        u.node_tags_counter = tags_number; 
+        for (int j=0; j<u.node_tags_counter; j++) {
+          JSONObject json_tag = new JSONObject(); json_tag = json_unit_tags.getJSONObject(j);
+          u.node_tags[j] = json_tag.getString(str(j)); update_tags(u.node_tags[j]);
+          // println("load_storygraph: tag " + u.node_tags[j]);
+        }  
+      } else {u.node_tags_counter = 0;}
+      // PROPP TAG
+      u.unit_propp_tag_index = json_node.getInt("unit propp tag index");
+      // STATES (preconditions and effects)
+      JSONArray json_unit_preconditions = json_node.getJSONArray("unit preconditions"); 
+      int preconditions_number=json_unit_preconditions.size();
+      if (preconditions_number > 0) {
+        u.unit_preconditions_counter = preconditions_number; 
+        for (int j=0; j<u.unit_preconditions_counter; j++) {
+          JSONObject json_precondition = new JSONObject(); json_precondition = json_unit_preconditions.getJSONObject(j);
+          u.unit_preconditions[j] = json_precondition.getString(str(j)); println(u.unit_preconditions[j].substring(4)); update_states(u.unit_preconditions[j].substring(4));
+        }  
+      } else {u.unit_preconditions_counter = 0;}
+      JSONArray json_unit_effects = json_node.getJSONArray("unit effects"); 
+      int effects_number=json_unit_effects.size();
+      if (effects_number > 0) {
+        u.unit_effects_counter = effects_number; 
+        for (int j=0; j<u.unit_effects_counter; j++) {
+          JSONObject json_effect = new JSONObject(); json_effect = json_unit_effects.getJSONObject(j);
+          u.unit_effects[j] = json_effect.getString(str(j)); println(u.unit_effects[j].substring(4)); update_states(u.unit_effects[j].substring(4));
+        }  
+      } else {u.unit_effects_counter = 0;}
+      // TENSION
+      u.unit_tension = json_node.getInt("unit tension");
+      // AGENTS
+      // println("load_storygraph: agents are " + u.unit_agents_counter);
       JSONArray json_unit_agents = json_node.getJSONArray("unit agents"); u.unit_agents_counter=json_unit_agents.size();
         // println("load_storygraph: agents are " + u.unit_agents_counter);
       for (int j=0; j<u.unit_agents_counter; j++) {
@@ -108,13 +181,25 @@ void load_storygraph(File selection) { // File is a Java class
       int head_index = searchNodeIdIndex(json_edge.getString("head"));
       int tail_index = searchNodeIdIndex(json_edge.getString("tail"));
       edges[i] = new Edge(nodes[head_index].id, nodes[tail_index].id, json_edge.getString("id"), json_edge.getString("label"));
-      println("new edge: " + edges[i].id);
+      // println("new edge: " + edges[i].id);
     }
     // load agents
     JSONArray json_agents = json_graph.getJSONArray("agents"); 
     for (int i=0; i<json_agents.size(); i++) {
       JSONObject json_agent = json_agents.getJSONObject(i);
       update_agents(json_agent.getString("name"));
+    }
+    // load tags
+    JSONArray json_tags = json_graph.getJSONArray("tags"); 
+    for (int i=0; i<json_tags.size(); i++) {
+      JSONObject json_tag = json_tags.getJSONObject(i);
+      update_tags(json_tag.getString("name"));
+    }
+    // load states
+    JSONArray json_states = json_graph.getJSONArray("states"); 
+    for (int i=0; i<json_states.size(); i++) {
+      JSONObject json_state = json_states.getJSONObject(i);
+      update_states(json_state.getString("name"));
     }
   }
 }
@@ -129,14 +214,33 @@ void load_storytext(File selection) { // File is a Java class
   } else {
     println("User selected " + selection.getAbsolutePath());
     String[] lines = loadStrings(selection);
+    String cur_tag = "NULL TAG"; // tags[i_cur_tag++]=new Tag(cur_tag);
     for (int i = 0; i < lines.length; i++) {
       println("lines["+str(i)+"]= " + lines[i]);
       if (!lines[i].equals("")) {
-        // Node(float x_aux, float y_aux, String id_aux, String text_aux, String tag_aux)
-        nodes[i_cur_node++] = new Unit(random(-xo,width-xo), random(-yo,height-yo), diameter_size, diameter_size, 
-                                       "N" + str(hour()) + str(minute()) + str(second()) + node_counter++, lines[i], "NULL TAG");  
+        if (lines[i].charAt(0)=='[') { // this is a tag line
+          // add this to tags
+          cur_tag = lines[i]; update_tags(cur_tag); println(cur_tag + " is a TAG!");
+        } else { // this is a node line
+          // Node(float x_aux, float y_aux, String id_aux, String text_aux, String tag_aux)
+          nodes[i_cur_node++] = new Unit(random(horizontal_offset-xo,(horizontal_offset+actual_width)-xo), 
+                                         random(vertical_offset-yo,(vertical_offset+actual_height)-yo), 
+                                         diameter_size, diameter_size, 
+                                         "N" + str(hour()) + str(minute()) + str(second()) + node_counter++, 
+                                         lines[i], cur_tag);  
+        }
       }
-    } 
+    }
+    tags_areas_setup();
+    // for (int i = 0; i < i_cur_tag; i++) {println(i + ", x_min =" + tags[i].x_min + ", x_max =" + tags[i].x_max + ", y_min =" + tags[i].y_min + ", y_max =" + tags[i].y_max);}
+    for (int i = 0; i < i_cur_node; i++) {
+      println(nodes[i].node_tags[0]);
+      if (nodes[i].node_tags[0]!=null) {
+        Tag t = searchTag(nodes[i].node_tags[0]);
+        println(t.name + ": " + t.x_min);
+        nodes[i].x = random(t.x_min - xo, t.x_max - xo); nodes[i].y = random(t.y_min - yo, t.y_max - yo);
+      }
+    }
   }
   loop();
   for (int i = 0; i < i_cur_node; i++) {print(nodes[i] + ", ");} print("\n");

@@ -12,15 +12,27 @@ class rectButton {
     id = i; text = t; x_coord = xc; y_coord = yc; x_width = xw; y_height = yh; rbc=c; font_size=fs;
   } 
   
-  void draw_rectButton() {
+  void draw_rectButtonCenter() {
     rectMode(CENTER); fill(rbc); 
     rect(x_coord, y_coord, x_width, y_height);
     textAlign(CENTER, CENTER); fill(0); textSize(font_size); text(text, x_coord, y_coord);
   }
-  
+
+  void draw_rectButtonRight() {
+    rectMode(CENTER); fill(rbc); 
+    rect(x_coord-x_width/2, y_coord, x_width, y_height);
+    textAlign(CENTER, CENTER); fill(0); textSize(font_size); text(text, x_coord-x_width/2, y_coord);
+  }
+
+  void draw_rectButtonLeft() {
+    rectMode(CENTER); fill(rbc); 
+    rect(x_coord+x_width/2, y_coord, x_width, y_height);
+    textAlign(CENTER, CENTER); fill(0); textSize(font_size); text(text, x_coord+x_width/2, y_coord);
+  }
+
   boolean click_rectButton() {
-    if (mouseX > (x_coord-x_width/2)*zoom+xo && mouseX < (x_coord+x_width/2)*zoom+xo && 
-        mouseY > (y_coord-y_height/2)*zoom+yo && mouseY < (y_coord+y_height/2)*zoom+yo) {return true;}
+    if (mouseX > (x_coord-x_width/2)/zoom+xo && mouseX < (x_coord+x_width/2)/zoom+xo && 
+        mouseY > (y_coord-y_height/2)/zoom+yo && mouseY < (y_coord+y_height/2)/zoom+yo) {return true;}
     return false;
   }
 }

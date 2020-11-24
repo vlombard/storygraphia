@@ -15,11 +15,13 @@ class Edge {
 
   Edge(String head_id_aux, String tail_id_aux, String id_aux, String label_aux) {
     head_id = head_id_aux; tail_id = tail_id_aux; id = id_aux; label = label_aux; select=false; deleted=false;
-    tooltip = new ToolTip(label, size_x/2, size_y/2, size_x/2, size_y/2, default_font_name, default_font_size, default_font_aspect_ratio);  
+    float[] coordinates = this.label_coordinates();
+    tooltip = new ToolTip(label, coordinates[0], coordinates[1]-diameter_size, actual_width/2, actual_height/2, default_font_name, default_font_size, default_font_aspect_ratio);  
+    // tooltip = new ToolTip(label, size_x/2, size_y/2, size_x/2, size_y/2, default_font_name, default_font_size, default_font_aspect_ratio);  
   }
   
   void delete() {
-    println("deleting edge " + id);
+    // println("deleting edge " + id);
     deleted=true;
   }
 
@@ -83,7 +85,7 @@ class Edge {
 int search_edge_id_index(String id) {
   // println(id);
   for (int i=0; i<i_cur_edge; i++) {
-    if (edges[i].id.equals(id)) {return i;}
+    if (edges[i].id.equals(id) && !edges[i].deleted) {return i;}
   }
   return -1;
 }
@@ -91,7 +93,15 @@ int search_edge_id_index(String id) {
 int search_edge_label_index(String l) {
   // println(t);
   for (int i=0; i<i_cur_edge; i++) {
-    if (edges[i].label.equals(l)) {return i;}
+    if (edges[i].label.equals(l) && !edges[i].deleted) {return i;}
+  }
+  return -1;
+}
+
+int search_edge_head_tail_index(int unitHeadIndex, int unitTailIndex) {
+  Unit head = (Unit) nodes[unitHeadIndex]; Unit tail = (Unit) nodes[unitTailIndex];
+  for (int i=0; i<i_cur_edge; i++) {
+    if (edges[i].head_id.equals(head.id) && edges[i].tail_id.equals(tail.id) && !edges[i].deleted) {return i;}
   }
   return -1;
 }
