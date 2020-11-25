@@ -40,7 +40,7 @@ void update_agents(String agt_name) {
     agents_color_setup();
     agents_position_setup();
   }
-  println("update_agents: " + i_cur_agent + " agents");
+  // println("update_agents: " + i_cur_agent + " agents");
 }
 
 

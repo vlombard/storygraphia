@@ -6,6 +6,7 @@
 float default_font_size = 12;
 String default_font_name = "SansSerif";
 float default_font_aspect_ratio = 0.6; // 0.525;
+float default_font_width = default_font_size*default_font_aspect_ratio; 
 PFont default_font_type;
 color text_color;
 

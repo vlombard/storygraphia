@@ -27,11 +27,9 @@ class ToolTip{
   }
         
   void display() { // display the tooltip (2017 july 3)
-    float bx = x+tooltipWidth/2; float by = y-tooltipHeight/2; // center coordinates of tooltip box rectangle  //<>//
-    if (bx*zoom+xo <= 0){bx = (tooltipWidth/2)/zoom-xo;} //  
-    if (bx*zoom+xo >= width){bx = (width-tooltipWidth/2)/zoom-xo;} 
-    if (by*zoom+yo <= 0) {by = (tooltipHeight/2)/zoom-yo;}
-    if (by*zoom+yo >= height) {by = (height-tooltipHeight/2)/zoom-yo;} //  
+    float bx = x; float by = y; // center coordinates of tooltip box rectangle //<>//
+    bx = check_horizontal_boundaries(x+tooltipWidth/2, tooltipWidth);
+    by = check_vertical_boundaries(y-tooltipHeight/2, tooltipHeight);
     //fill(tbackground); noStroke(); rectMode(CENTER); // rectMode(CORNER);  
     //rect(bx, by, tooltipWidth, tooltipHeight); 
     write_lines_in_fixed_fontsize(text, font_name, font_aspect_ratio, font_size, "LEFT", "TOP", bx, by);
@@ -51,13 +49,16 @@ class ToolTip{
 // text layover through tooltip
 void layover() {
   // search for the tooltips to display
-  float x = mouseX-xo; float y = mouseY-yo; // capture mouse position
+  //* float x = mouseX-xo; float y = mouseY-yo; // capture mouse position
+  float tt_x = mouseX; float tt_y = mouseY; // capture mouse position
   for (int i=0; i<i_cur_node; i++) { // for each node that includes a tooltip 
     if (!nodes[i].deleted) {
       ToolTip tt = nodes[i].tooltip; 
-      if (x < (nodes[i].x+nodes[i].w/2)*zoom && x > (nodes[i].x-nodes[i].w/2)*zoom) { // if the mouse is over such box
-        if (y < (nodes[i].y+nodes[i].h/2)*zoom && y > (nodes[i].y-nodes[i].h/2)*zoom) {
-          tt.x=x; tt.y=y; 
+      //* if (x < (nodes[i].x+nodes[i].w/2)*zoom && x > (nodes[i].x-nodes[i].w/2)*zoom) { // if the mouse is over such box
+        //* if (y < (nodes[i].y+nodes[i].h/2)*zoom && y > (nodes[i].y-nodes[i].h/2)*zoom) {
+      if (tt_x < (nodes[i].x+nodes[i].w/2)*zoom+xo && tt_x > (nodes[i].x-nodes[i].w/2)*zoom+xo) { // if the mouse is over such box
+        if (tt_y < (nodes[i].y+nodes[i].h/2)*zoom+yo && tt_y > (nodes[i].y-nodes[i].h/2)*zoom+yo) {
+          tt.x=tt_x/zoom-xo; tt.y=tt_y/zoom-yo; 
           //color c = color(0, 0, 80, 10); // color(0, 80, 255, 30);
           //tb.tooltip.setBackground(c); // color(0,80,255,30));
           tt.display();
@@ -74,9 +75,11 @@ void layover() {
       Node tail = nodes[tail_index];
       float edgeLabel_x = (tail.x + head.x) / 2;
       float edgeLabel_y = (tail.y + head.y) / 2;
-      if (x < (edgeLabel_x+diameter_size/2)*zoom && x > (edgeLabel_x-diameter_size/2)*zoom) { // if the mouse is over such box
-        if (y < (edgeLabel_y+diameter_size/2)*zoom && y > (edgeLabel_y-diameter_size/2)*zoom) {
-          tt.x= x; tt.y= y; 
+      //* if (x < (edgeLabel_x+diameter_size/2)*zoom && x > (edgeLabel_x-diameter_size/2)*zoom) { // if the mouse is over such box
+        //* if (y < (edgeLabel_y+diameter_size/2)*zoom && y > (edgeLabel_y-diameter_size/2)*zoom) {
+      if (tt_x < (edgeLabel_x+diameter_size/2)*zoom+xo && tt_x > (edgeLabel_x-diameter_size/2)*zoom+xo) { // if the mouse is over such box
+        if (tt_y < (edgeLabel_y+diameter_size/2)*zoom+yo && tt_y > (edgeLabel_y-diameter_size/2)*zoom+yo) {
+          tt.x=tt_x/zoom-xo; tt.y=tt_y/zoom-yo; 
           color c = color(0, 0, 80, 10); // color(0, 80, 255, 30);
           tt.setBackground(c); // color(0,80,255,30));
           tt.display();

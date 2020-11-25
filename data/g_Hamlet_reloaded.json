@@ -2,75 +2,118 @@
   "name": "Amleto reloaded",
   "edges": [
     {
-      "head": "N214452",
-      "tail": "U_001",
-      "id": "U_001-U_002",
-      "label": "Amleto entrato in stanza"
+      "head": "U004",
+      "tail": "U003",
+      "id": "e0",
+      "label": "NULL"
     },
     {
-      "head": "U_005",
-      "tail": "U_004",
-      "id": "e1",
+      "head": "U005",
+      "tail": "U003",
+      "id": "e2",
+      "label": "NULL"
+    },
+    {
+      "head": "U003",
+      "tail": "U001",
+      "id": "e3",
+      "label": "NULL"
+    },
+    {
+      "head": "U003",
+      "tail": "U002",
+      "id": "e4",
       "label": "NULL"
     }
   ],
   "units": [
     {
+      "unit tags": [{"0": "incontro"}],
       "w": 42,
-      "x": -453,
+      "unit propp tag index": 3,
+      "x": -258.4166564941406,
       "h": 42,
-      "y": -115,
-      "id": "U_001",
-      "text": "U_001: Amleto entra per caso nella stanza di Ofelia",
-      "tag": "NULL TAG",
-      "unit agents": [{"0": "Amleto"}]
+      "y": 41.044403076171875,
+      "unit tension": -1,
+      "id": "U001",
+      "text": "Amleto entra per caso nella stanza di Ofelia",
+      "unit effects": [{"0": "EFF:Amleto entrato"}],
+      "unit agents": [{"0": "Amleto"}],
+      "unit preconditions": [{"0": "PRE:start"}]
     },
     {
+      "unit tags": [{"0": "incontro"}],
       "w": 42,
-      "x": -388,
+      "unit propp tag index": 3,
+      "x": -258.4166564941406,
       "h": 42,
-      "y": 58,
-      "id": "N214451",
-      "text": "U_002: Amleto entra nella stanza di Ofelia mandato da Polonio",
-      "tag": "NULL TAG",
-      "unit agents": []
+      "y": -184,
+      "unit tension": -1,
+      "id": "U002",
+      "text": "Amleto entra nella stanza di Ofelia mandato da Polonio",
+      "unit effects": [{"0": "EFF:Amleto entrato"}],
+      "unit agents": [{"0": "Amleto"}],
+      "unit preconditions": [{"0": "PRE:start"}]
     },
     {
+      "unit tags": [{"0": "accoglienza"}],
       "w": 42,
-      "x": -181,
+      "unit propp tag index": -1,
+      "x": -53,
       "h": 42,
-      "y": -79,
-      "id": "N214452",
-      "text": "U_003: Ofelia accoglie Amleto, manifestandogli le sue perplessità sulla permanenza alla corte di Elsinore ",
-      "tag": "NULL TAG",
+      "y": -87,
+      "unit tension": -1,
+      "id": "U003",
+      "text": "Ofelia accoglie Amleto, manifestandogli le sue perplessità sulla permanenza alla corte di Elsinore",
+      "unit effects": [{"0": "EFF:Ofelia perplessa"}],
       "unit agents": [
-        {"0": "Ofelia"},
-        {"1": "Amleto"}
-      ]
+        {"0": "Amleto"},
+        {"1": "Ofelia"}
+      ],
+      "unit preconditions": [{"0": "PRE:Amleto entrato"}]
     },
     {
+      "unit tags": [{"0": "rabbia"}],
       "w": 42,
-      "x": 66,
+      "unit propp tag index": 9,
+      "x": 330.58331298828125,
       "h": 42,
-      "y": -170,
-      "id": "U_004",
-      "text": "U_004: Amleto accusa Ofelia di tendergli un tranello",
-      "tag": "NULL TAG",
-      "unit agents": []
+      "y": 46,
+      "unit tension": -1,
+      "id": "U005",
+      "text": "Amleto accusa Ofelia di tendergli un tranello",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": [{"0": "PRE:Ofelia perplessa"}]
     },
     {
+      "unit tags": [{"0": "complicita"}],
       "w": 42,
-      "x": 283,
+      "unit propp tag index": 8,
+      "x": 232.4166259765625,
       "h": 42,
-      "y": 2,
-      "id": "U_005",
-      "text": "U_005: Amleto propone a Ofelia il piano della messinscena  ",
-      "tag": "NULL TAG",
-      "unit agents": []
+      "y": -196,
+      "unit tension": -1,
+      "id": "U004",
+      "text": "Amleto propone a Ofelia il piano della messinscena",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": [{"0": "PRE:Ofelia perplessa"}]
     }
   ],
   "agents": [
     {"name": "Amleto"},
     {"name": "Ofelia"}
+  ],
+  "tags": [
+    {"name": "incontro"},
+    {"name": "accoglienza"},
+    {"name": "rabbia"},
+    {"name": "complicita"}
+  ],
+  "states": [
+    {"name": "start"},
+    {"name": "Amleto entrato"},
+    {"name": "Ofelia perplessa"}
   ]
 }

@@ -1,0 +1,38 @@
+STORYGRAPHIA STORY PRINT
+===================================================== 
+
+
+1: 02-3
+
+Amleto entra per caso nella stanza di Ofelia
+- 
+Ofelia accoglie Amleto, manifestandogli le sue perplessità sulla permanenza alla corte di Elsinore
+- 
+Amleto accusa Ofelia di tendergli un tranello
++++++++++++++++++
+2: 02-4
+
+Amleto entra per caso nella stanza di Ofelia
+- 
+Ofelia accoglie Amleto, manifestandogli le sue perplessità sulla permanenza alla corte di Elsinore
+- 
+Amleto propone a Ofelia il piano della messinscena
++++++++++++++++++
+3: 12-3
+
+Amleto entra nella stanza di Ofelia mandato da Polonio
+- 
+Ofelia accoglie Amleto, manifestandogli le sue perplessità sulla permanenza alla corte di Elsinore
+- 
+Amleto accusa Ofelia di tendergli un tranello
++++++++++++++++++
+4: 12-4
+
+Amleto entra nella stanza di Ofelia mandato da Polonio
+- 
+Ofelia accoglie Amleto, manifestandogli le sue perplessità sulla permanenza alla corte di Elsinore
+- 
+Amleto propone a Ofelia il piano della messinscena
++++++++++++++++++===================================================== 
+
+ STORYGRAPHIA, 4 potential linear stories, ratio 0.8
