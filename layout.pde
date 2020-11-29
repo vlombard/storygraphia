@@ -41,10 +41,10 @@ void color_setup() {
 void draw_header() {
   stroke(edge_color); fill(node_color); rectMode(CENTER); 
   int s = (int) vertical_offset-2; textSize(s); textFont(default_font_type, s);   
-  line((x_credits-(graph_name.length()/2)*default_font_aspect_ratio*s), vertical_offset, 
-       (x_credits+(graph_name.length()/2)*default_font_aspect_ratio*s), vertical_offset);
+  line((x_credits-(graph_name.length()/2)*default_font_aspect_ratio*s)/zoom-xo, vertical_offset/zoom-yo, 
+       (x_credits+(graph_name.length()/2)*default_font_aspect_ratio*s)/zoom-xo, vertical_offset/zoom-yo);
   textAlign(CENTER,DOWN); fill(text_color);
-  text(graph_name, x_credits, y_credits);
+  text(graph_name, x_credits/zoom-xo, y_credits/zoom-yo);
 }
 
 String set_graph_name() {

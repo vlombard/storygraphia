@@ -160,8 +160,10 @@ class Unit extends Node {
   // unit DRAWING
   void draw_unit() {
     // PRINT CHECK: println("Drawing unit " + id);
-    draw_unit_agents();
-    draw_node();
+    if (!deleted) {
+      draw_unit_agents();
+      draw_node();
+    }
   } // END draw_node
   
   void draw_unit_agents() {

@@ -9,7 +9,10 @@ boolean select2=false;
 String select_type = "NULL"; // type of current selection
 String modality ="INI";
 String plot_generation_mode = "MANUAL";
-
+// HELP RECTANGLE
+String[] help_lines;
+boolean help_b = false;
+float help_width, help_height;
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%%% INITIALIZATION 
@@ -207,8 +210,10 @@ void generic_graph_keyPressed() {
     if (i_select!=-1 && select_type.equals("EDGE")) {edges[i_select].select = false; i_select=-1; }
     if (i_select2!=-1) {nodes[i_select2].select2 = false; i_select2=-1; }
     select_type="NULL"; selection_possible = true;  hide_all_menus(); //tags_checkbox.hide();
+    if (help_b) {help_b = false;}
   } else if (key=='d') { // delete the selected node or edge
     if (i_select!=-1 && i_select2==-1) {
+      hide_all_menus();
       if (select_type.equals("NODE")) {nodes[i_select].delete();}
       else {edges[i_select].delete();} // select_type.equals("EDGE")
       i_select=-1; select_type="NULL"; selection_possible = true;
@@ -223,6 +228,11 @@ void generic_graph_keyPressed() {
     if (i_select!=-1 && i_select2==-1) {
       nodes[i_select].modify_tags(); // modify the tags through the checkbox
       nodes[i_select].select1 = false; i_select=-1; select_type="NULL"; selection_possible = true; // unselect
+    }
+  } else if (key=='h') { // display help
+    if (!help_b) {
+      help_b = true;
+      display_help(); 
     }
   } else if (key=='i') { // modify the identifier of the selected node
     if (i_select!=-1 && i_select2==-1) {
@@ -262,6 +272,29 @@ void generic_graph_keyPressed() {
     }; // end if mousePressed  
     if (i_move_node!=null) {
       flashing_ellipse (i_move_node.x, i_move_node.y, i_move_node.w);
+    }
+  }
+}
+
+void help_settings() {
+  help_lines = loadStrings("commands.txt");
+  help_width = (size_x/2)/zoom; help_height = (size_x/2)/zoom;
+}
+
+void display_help() {
+  if (help_b) {
+    fill(0,0,100,200); rectMode(CENTER);
+    rect((size_x/2)/zoom-xo, (size_y/2)/zoom-yo, width, height);
+    fill(0,0,100); rectMode(CENTER);
+    rect((size_x/2)/zoom-xo, (size_y/2)/zoom-yo, help_width, help_height);
+    float x = ((size_x/2)/zoom-xo) - help_width/2;
+    float y_base = (size_y/2)/zoom-yo - help_height/2;
+    text_setup(); 
+    for (int i=0; i<help_lines.length;i++) {
+      fill(0,0,0); textAlign(LEFT,TOP);
+      text(help_lines[i], x, y_base+i*default_font_size); //, help_width, default_font_size);
+      //flex_write_lines_in_box(help_lines[i], default_font_name, default_font_aspect_ratio, 
+        //                      "LEFT", "CENTER", x, y_base+i*default_font_size, help_width, default_font_size);
     }
   }
 }

@@ -47,11 +47,12 @@ void update_agents(String agt_name) {
 void draw_agents() {
   for (int i=0; i < i_cur_agent; i++) {
     fill(agents[i].agent_color); rectMode(CENTER);
-    rect(agents[i].x,agents[i].y,agents[i].w,agents[i].h);
+    rect(agents[i].x/zoom-xo,agents[i].y/zoom-yo,agents[i].w,agents[i].h);
   }
 }
 
 class Agent {
+  String id;
   String name;
   float x,y;
   float w,h;
