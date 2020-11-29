@@ -7,7 +7,8 @@ String graph_name = "NULL";
 
 // ----------- SETUP ----------
 void settings() {  
-  generic_layout_settings(); // LAYOUT  
+  generic_layout_settings(); // LAYOUT 
+  help_settings(); // HELP LAYOUT
   generic_graph_settings(); // GRAPH
   // SPECIFIC SETTINGS
   unit_settings();
@@ -52,6 +53,9 @@ void draw() {
     // *** background
     if (plot_generation_mode.equals("PROPP")) {propp_layout_bg_matrix();} // Propp background 
     else if (plot_generation_mode.equals("TENSION")) {tension_layout_bg();}
+    else {background(0, 0, 100);} // white background
+    draw_agents();
+    if (!graph_name.equals("NULL")) {draw_header();}
     // *** draw edges
     for (int i=0; i<i_cur_edge; i++) {edges[i].draw_labelled_edge();}; //draw_labelled_edge(i);}; 
     // *** draw nodes
@@ -59,7 +63,8 @@ void draw() {
     // *** draw agents
     // draw_agents();
     // *** layover
-    layover(); agent_layover();
+    layover(); agent_layover(); 
+    if (help_b) {display_help();}
     // *** header
     // if (!graph_name.equals("NULL")) {draw_header();}
     break;

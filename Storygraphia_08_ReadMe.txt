@@ -71,6 +71,7 @@ SELECT/ADD PRECONDITION/EFFECT TO A UNIT:
         then, press "g";
 INSERT/MODIFY TENSION VALUE: keyboard press "y"; then, enter tension value as integer [1,100]
 SAVE A STORYGRAPH: keyboard press "w" and file selection (.json extension)
+HELP: keyboard press "h"
 EXIT: keyboard press "q"
 
 KEYBOARD RESUME

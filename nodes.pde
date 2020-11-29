@@ -132,7 +132,7 @@ class Node {
       ellipse(x, y, w, h);
       fill(text_color);
       flex_write_lines_in_box(id, default_font_name, default_font_aspect_ratio, "CENTER", "CENTER", x, y, diameter_size, diameter_size);
-    }
+    } // END not deleted
   } // END draw_node
 }
 
