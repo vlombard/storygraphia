@@ -1,0 +1,338 @@
+{
+  "name": "SirioStorygraphia",
+  "edges": [
+    {
+      "head": "Unit02",
+      "tail": "Unit03",
+      "id": "e0",
+      "label": "Manda i campioni in stiva per portarli alla base"
+    },
+    {
+      "head": "Unit04",
+      "tail": "Unit01",
+      "id": "e1",
+      "label": "Sperimenta la forza dei cannoni"
+    },
+    {
+      "head": "Unit03",
+      "tail": "Unit01",
+      "id": "e2",
+      "label": "Manda in missione una sonda"
+    },
+    {
+      "head": "Unit09",
+      "tail": "Unit03",
+      "id": "e3",
+      "label": "Consegna i campioni ai tuoi scienziati"
+    },
+    {
+      "head": "Unit06",
+      "tail": "Unit04",
+      "id": "e4",
+      "label": "Fai attenzione ai residui"
+    },
+    {
+      "head": "Unit07",
+      "tail": "Unit04",
+      "id": "e5",
+      "label": "Punta il periscopio laser verso l'asteroide"
+    },
+    {
+      "head": "Unit10",
+      "tail": "Unit06",
+      "id": "e6",
+      "label": "Allerta la difesa"
+    },
+    {
+      "head": "Unit13",
+      "tail": "Unit06",
+      "id": "e7",
+      "label": "Manda le navette di recupero"
+    },
+    {
+      "head": "Unit10",
+      "tail": "Unit09",
+      "id": "e8",
+      "label": "Fai salire l'allerta ai massimi livelli"
+    },
+    {
+      "head": "Unit13",
+      "tail": "Unit09",
+      "id": "e9",
+      "label": "Manda le navette di recupero"
+    },
+    {
+      "head": "Unit05",
+      "tail": "Unit02",
+      "id": "e10",
+      "label": "Attiva i sistemi di difesa computerizzati"
+    },
+    {
+      "head": "Unit08",
+      "tail": "Unit02",
+      "id": "e11",
+      "label": "Chiama gli scienziati di bordo in riunione di emergenza"
+    },
+    {
+      "head": "Unit10",
+      "tail": "Unit05",
+      "id": "e12",
+      "label": "Festeggia con tutto l'equipaggio"
+    },
+    {
+      "head": "Unit13",
+      "tail": "Unit05",
+      "id": "e13",
+      "label": "Ordina di recuperare il Klingon"
+    },
+    {
+      "head": "Unit11",
+      "tail": "Unit07",
+      "id": "e14",
+      "label": "Riunisci il team tecnico per attestare i danni"
+    },
+    {
+      "head": "Unit12",
+      "tail": "Unit07",
+      "id": "e15",
+      "label": "Cerca di recuperare una parte del Klingon"
+    },
+    {
+      "head": "Unit14",
+      "tail": "Unit12",
+      "id": "e16",
+      "label": "Adesso puoi rilassarti e goderti il successo"
+    },
+    {
+      "head": "Unit14",
+      "tail": "Unit13",
+      "id": "e17",
+      "label": "Adesso puoi rilassarti e goderti il successo"
+    },
+    {
+      "head": "Unit11",
+      "tail": "Unit10",
+      "id": "e18",
+      "label": "Assicurati che la tua nave non abbia subito danni"
+    },
+    {
+      "head": "Unit12",
+      "tail": "Unit10",
+      "id": "e19",
+      "label": "Cerca di recuperare il Klingon"
+    },
+    {
+      "head": "Unit11",
+      "tail": "Unit08",
+      "id": "e20",
+      "label": "Convoca una riunione per verificare lo stato dell'incrociatore"
+    },
+    {
+      "head": "Unit12",
+      "tail": "Unit08",
+      "id": "e21",
+      "label": "Cerca di non tornare a mani vuote alla base"
+    }
+  ],
+  "units": [
+    {
+      "unit tags": [],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": -532,
+      "h": 42,
+      "y": 7,
+      "unit tension": -1,
+      "id": "Unit01",
+      "text": "L'incrociatore galattico Sirio è in missione. Sta uscendo dalla via lattea per avvicinarsi a un enorme asteroide dove si suppone ci sia un giacimento di Klungon",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": []
+    },
+    {
+      "unit tags": [],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": -287,
+      "h": 42,
+      "y": -173,
+      "unit tension": -1,
+      "id": "Unit02",
+      "text": "La sonda ha portato a bordo una forma di vita aliena che riesce a impadronirsi dei comandi della nave e a metterli fuori uso.",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": []
+    },
+    {
+      "unit tags": [],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": -428,
+      "h": 42,
+      "y": -74,
+      "unit tension": -1,
+      "id": "Unit03",
+      "text": "Dall'incrociatore una sonda atterra sull'asteroide prelevandone alcuni campioni",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": []
+    },
+    {
+      "unit tags": [],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": -467,
+      "h": 42,
+      "y": 177,
+      "unit tension": -1,
+      "id": "Unit04",
+      "text": "Quando l'asteroide è abbastanza vicino i cannoni fotonici dell'incrociatore lo riducono in mille pezzi",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": []
+    },
+    {
+      "unit tags": [],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": -152,
+      "h": 42,
+      "y": -106,
+      "unit tension": -1,
+      "id": "Unit05",
+      "text": "L'intrusione degli alieni è contrastata dal sistema di bordo che riesce ad riparare i danni ed eliminare la contaminazione grazie al dissuasore molecolare",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": []
+    },
+    {
+      "unit tags": [],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": -328,
+      "h": 42,
+      "y": 232,
+      "unit tension": -1,
+      "id": "Unit06",
+      "text": "L'esplosione dell'asteroide è violentissima e lancia frammenti come proiettili nello spazio ma l'incrociatore riesce ad evitarli",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": []
+    },
+    {
+      "unit tags": [],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": -285,
+      "h": 42,
+      "y": 99,
+      "unit tension": -1,
+      "id": "Unit07",
+      "text": "Dalla nube lasciata dall'asteroide emerge un caccia alieno che cerca di fuggire ma è colpito dai laser dell'incrociatore",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": []
+    },
+    {
+      "unit tags": [],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": -154,
+      "h": 42,
+      "y": -238,
+      "unit tension": -1,
+      "id": "Unit08",
+      "text": "La comandante della Sirio utilizza un contro-virus che distrugge gli alieni e attiva un sistema di controllo di emergenza per gestire la nave",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": []
+    },
+    {
+      "unit tags": [],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": -288,
+      "h": 42,
+      "y": -1,
+      "unit tension": -1,
+      "id": "Unit09",
+      "text": "Gli scienziati del laboratorio di analisi sventano il tentativo di una forma di vita aliena di prendere il controllo delle apparecchiature di bordo",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": []
+    },
+    {
+      "unit tags": [],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": 8,
+      "h": 42,
+      "y": -99,
+      "unit tension": -1,
+      "id": "Unit10",
+      "text": "Nella confusione una navicella aliena tenta di abbordare la Sirio per impadronirsi delle riserve di Kunglon ma l'equipaggio li respinge valorosamente",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": []
+    },
+    {
+      "unit tags": [],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": 335,
+      "h": 42,
+      "y": -202,
+      "unit tension": -1,
+      "id": "Unit11",
+      "text": "Dopo diverse peripezie la Sirio è salva ma non è riuscita a caricare il prezioso Klungon",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": []
+    },
+    {
+      "unit tags": [],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": 252,
+      "h": 42,
+      "y": -40,
+      "unit tension": -1,
+      "id": "Unit12",
+      "text": "Una eroica squadriglia di esploratori riesce a recuperare il Klungon e metterlo al sicuro su Sirio",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": []
+    },
+    {
+      "unit tags": [],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": 44,
+      "h": 42,
+      "y": 239,
+      "unit tension": -1,
+      "id": "Unit13",
+      "text": "Le difficoltà non impediscono alla nave di recuperare il prezioso Klungon dell'asteroide e caricarlo in stiva",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": []
+    },
+    {
+      "unit tags": [],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": 432,
+      "h": 42,
+      "y": 110,
+      "unit tension": -1,
+      "id": "Unit14",
+      "text": "Brindando al successo la comandante e il suo equipaggio tornano vittoriosi alla base",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": []
+    }
+  ],
+  "agents": [],
+  "tags": [],
+  "states": []
+}

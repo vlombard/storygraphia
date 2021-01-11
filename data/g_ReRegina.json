@@ -1,0 +1,98 @@
+{
+  "name": "Il re e la regina",
+  "edges": [
+    {
+      "head": "ReginaMuore",
+      "tail": "ReMuore",
+      "id": "e0",
+      "label": "Regina disperata"
+    },
+    {
+      "head": "ReginaSiSposa",
+      "tail": "ReMuore",
+      "id": "e1",
+      "label": "Regina speranzosa"
+    },
+    {
+      "head": "ReScopre",
+      "tail": "ReV",
+      "id": "e2",
+      "label": "Re torna al castello"
+    }
+  ],
+  "units": [
+    {
+      "unit tags": [],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": -315,
+      "h": 42,
+      "y": -71,
+      "unit tension": -1,
+      "id": "ReMuore",
+      "text": "Il re muore in battaglia.",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": []
+    },
+    {
+      "unit tags": [],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": 98,
+      "h": 42,
+      "y": -198,
+      "unit tension": -1,
+      "id": "ReginaMuore",
+      "text": "La regina muore di dolore.",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": []
+    },
+    {
+      "unit tags": [],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": 100,
+      "h": 42,
+      "y": -15,
+      "unit tension": -1,
+      "id": "ReginaSiSposa",
+      "text": "La regina si sposa con il fratello del re.",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": []
+    },
+    {
+      "unit tags": [],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": -321,
+      "h": 42,
+      "y": -252,
+      "unit tension": -1,
+      "id": "ReV",
+      "text": "Il re vince in battaglia.",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": []
+    },
+    {
+      "unit tags": [],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": -106,
+      "h": 42,
+      "y": -254,
+      "unit tension": -1,
+      "id": "ReScopre",
+      "text": "ReScopre",
+      "unit effects": [],
+      "unit agents": [],
+      "unit preconditions": []
+    }
+  ],
+  "agents": [],
+  "tags": [],
+  "states": []
+}

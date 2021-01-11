@@ -24,6 +24,12 @@
       "tail": "U002",
       "id": "e4",
       "label": "NULL"
+    },
+    {
+      "head": "U006",
+      "tail": "U003",
+      "id": "e4",
+      "label": "NULL"
     }
   ],
   "units": [
@@ -31,9 +37,9 @@
       "unit tags": [{"0": "incontro"}],
       "w": 42,
       "unit propp tag index": 3,
-      "x": -258.4166564941406,
+      "x": -331,
       "h": 42,
-      "y": 41.044403076171875,
+      "y": 23,
       "unit tension": -1,
       "id": "U001",
       "text": "Amleto entra per caso nella stanza di Ofelia",
@@ -45,9 +51,9 @@
       "unit tags": [{"0": "incontro"}],
       "w": 42,
       "unit propp tag index": 3,
-      "x": -258.4166564941406,
+      "x": -372,
       "h": 42,
-      "y": -184,
+      "y": -186,
       "unit tension": -1,
       "id": "U002",
       "text": "Amleto entra nella stanza di Ofelia mandato da Polonio",
@@ -59,9 +65,9 @@
       "unit tags": [{"0": "accoglienza"}],
       "w": 42,
       "unit propp tag index": -1,
-      "x": -53,
+      "x": -64,
       "h": 42,
-      "y": -87,
+      "y": -77,
       "unit tension": -1,
       "id": "U003",
       "text": "Ofelia accoglie Amleto, manifestandogli le sue perplessità sulla permanenza alla corte di Elsinore",
@@ -99,17 +105,33 @@
       "unit effects": [],
       "unit agents": [],
       "unit preconditions": [{"0": "PRE:Ofelia perplessa"}]
+    },
+    {
+      "unit tags": [{"0": "Lotta"}],
+      "w": 42,
+      "unit propp tag index": -1,
+      "x": 45,
+      "h": 42,
+      "y": 103,
+      "unit tension": -1,
+      "id": "U006",
+      "text": "U006",
+      "unit effects": [],
+      "unit agents": [{"0": "Claudio"}],
+      "unit preconditions": []
     }
   ],
   "agents": [
     {"name": "Amleto"},
-    {"name": "Ofelia"}
+    {"name": "Ofelia"},
+    {"name": "Claudio"}
   ],
   "tags": [
     {"name": "incontro"},
     {"name": "accoglienza"},
     {"name": "rabbia"},
-    {"name": "complicita"}
+    {"name": "complicita"},
+    {"name": "Lotta"}
   ],
   "states": [
     {"name": "start"},
