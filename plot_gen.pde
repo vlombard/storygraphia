@@ -1,9 +1,12 @@
 
 // PROPP
 // based on Lakoff elaboration of Propp functions
-String[] proppTags = {"Int(erdiction)", "Vio(lation)", "Cv (Complication\nvillany)", "L(eave)", "D(onor)", 
-                      "hEro\nreacts", "F (gain\nmagic", "G (uses\nmagic)", "H (fights\nvillain)", "I (defeats\nvillain)", 
-                      "K (misfortune\nliquidated)", "Rew(ard)"};
+String[] proppTagsBoard = {"Int(erdiction)", "Vio(lation)", "Cv \nComplication\nvillany", "L(eave)", "D(onor)", 
+                     "hEro reacts", "F\ngain magic", "G \nuses magic)", "H \nfights villain", "I\ndefeats\nvillain", 
+                     "K\nmisfortune\nliquidated", "Rew(ard)"};
+String[] proppTags = {"Int(erdiction)", "Vio(lation)", "Complication", "Leave", "Donor", 
+                      "hEro reacts", "F (gain magic)", "G (uses magic)", "H (fights villain)", "I (defeats villain)", 
+                      "K (misfortune liquidated)", "Reward"};
 int cur_unit_propp_tag_index = -1;
 float[] propp_layout_x = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
 color[] propp_layout_colors = {color(0), color(0), color(0), color(0), color(0), color(0), color(0), color(0), color(0), color(0), color(0), color(0)};
@@ -11,7 +14,7 @@ color[] propp_layout_colors = {color(0), color(0), color(0), color(0), color(0),
 void propp_setup() {
   float rect_width = actual_width/proppTags.length;
   for (int i=0; i<proppTags.length; i++) {
-    propp_layout_x[i] = horizontal_offset+i*rect_width+rect_width/2;
+    propp_layout_x[i] = left_offset+i*rect_width+rect_width/2;
     if (i%2==0) {propp_layout_colors[i] = bg_color_1;} else  {propp_layout_colors[i] = bg_color_2;}
   }  
 }
@@ -19,19 +22,19 @@ void propp_setup() {
 void propp_settings() {
   float rect_width = actual_width/proppTags.length;
   for (int i=0; i<proppTags.length; i++) {
-    propp_layout_x[i] = horizontal_offset+i*rect_width+rect_width/2;
+    propp_layout_x[i] = left_offset+i*rect_width+rect_width/2;
     if (i%2==0) {propp_layout_colors[i] = bg_color_1;} else  {propp_layout_colors[i] = bg_color_2;}
   }  
 }
 
 void propp_layout_bg_matrix() {
   noStroke();
-  for (int i=0; i<proppTags.length; i++) {
+  for (int i=0; i<proppTagsBoard.length; i++) {
     fill(propp_layout_colors[i]);
-    rect(propp_layout_x[i]/zoom-xo, (vertical_offset+actual_height/2)/zoom-yo,
-           actual_width/proppTags.length, actual_height);
-    fill(text_color); textFont(default_font_type);
-    text(proppTags[i], propp_layout_x[i]/zoom-xo, (vertical_offset+default_font_size)/zoom-yo);
+    rect(propp_layout_x[i]/zoom-xo, (top_offset+actual_height/2)/zoom-yo,
+           actual_width/proppTagsBoard.length, actual_height);
+    fill(text_color); textFont(default_font_type); textAlign(CENTER,TOP);
+    text(proppTagsBoard[i], propp_layout_x[i]/zoom-xo, (top_offset+default_font_size)/zoom-yo);
   }
 }
 
@@ -127,10 +130,10 @@ void tension_setup() {
 float tension_position(int tension) {
   float y = -1; int tension_interval = max_tension-min_tension;
   float y_relative = (tension * actual_height) / tension_interval;
-  y = vertical_offset + (actual_height - y_relative);
+  y = top_offset + (actual_height - y_relative);
   return y;
 }
 
 void tension_layout_bg() {
-  image(tension_bg, horizontal_offset/zoom-xo, vertical_offset/zoom-yo, actual_width, actual_height);
+  image(tension_bg, (left_offset+actual_width/2)/zoom-xo, (top_offset+actual_height/2)/zoom-yo, actual_width, actual_height);
 }

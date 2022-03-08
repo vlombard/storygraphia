@@ -27,11 +27,12 @@ class ToolTip{
   }
         
   void display() { // display the tooltip (2017 july 3)
-    float bx = x; float by = y; // center coordinates of tooltip box rectangle //<>//
+    float bx = x; float by = y; // center coordinates of tooltip box rectangle
     bx = check_horizontal_boundaries(x+tooltipWidth/2, tooltipWidth);
     by = check_vertical_boundaries(y-tooltipHeight/2, tooltipHeight);
-    //fill(tbackground); noStroke(); rectMode(CENTER); // rectMode(CORNER);  
-    //rect(bx, by, tooltipWidth, tooltipHeight); 
+    fill(0, 0, 100); //tbackground); 
+    noStroke(); rectMode(CENTER); // rectMode(CORNER);  
+    rect(bx, by, tooltipWidth, tooltipHeight); 
     write_lines_in_fixed_fontsize(text, font_name, font_aspect_ratio, font_size, "LEFT", "TOP", bx, by);
   } // END METHOD display
 
@@ -79,6 +80,36 @@ void layover() {
         //* if (y < (edgeLabel_y+diameter_size/2)*zoom && y > (edgeLabel_y-diameter_size/2)*zoom) {
       if (tt_x < (edgeLabel_x+diameter_size/2)*zoom+xo && tt_x > (edgeLabel_x-diameter_size/2)*zoom+xo) { // if the mouse is over such box
         if (tt_y < (edgeLabel_y+diameter_size/2)*zoom+yo && tt_y > (edgeLabel_y-diameter_size/2)*zoom+yo) {
+          tt.x=tt_x/zoom-xo; tt.y=tt_y/zoom-yo; 
+          color c = color(0, 0, 80, 10); // color(0, 80, 255, 30);
+          tt.setBackground(c); // color(0,80,255,30));
+          tt.display();
+        }
+      }
+    }
+  } // END FOR 
+}
+
+// text layover through tooltip
+void layover_nav() {
+  // search for the tooltips to display
+  float tt_x = mouseX; float tt_y = mouseY; // capture mouse position
+  for (int i=0; i<i_cur_node; i++) { // for each node that includes a tooltip 
+    if (!nodes[i].deleted && i!=cur_nav_node_index) {
+      ToolTip tt = nodes[i].tooltip; 
+      if (tt_x < (nodes[i].x_nav+nodes[i].w/2)*zoom+xo && tt_x > (nodes[i].x_nav-nodes[i].w_nav/2)*zoom+xo) { // if the mouse is over such box
+        if (tt_y < (nodes[i].y_nav+nodes[i].h_nav/2)*zoom+yo && tt_y > (nodes[i].y_nav-nodes[i].h_nav/2)*zoom+yo) {
+          tt.x=tt_x/zoom-xo; tt.y=tt_y/zoom-yo; 
+          tt.display();
+        }
+      }
+    }
+  } // END FOR nodes
+  for (int i=0; i<i_cur_edge; i++) { // for each node that includes a tooltip 
+    if (!edges[i].deleted) {
+      ToolTip tt = edges[i].tooltip; 
+      if (tt_x < (edges[i].label_x_nav+diameter_size/2)*zoom+xo && tt_x > (edges[i].label_x_nav-diameter_size/2)*zoom+xo) { // if the mouse is over such box
+        if (tt_y < (edges[i].label_y_nav+diameter_size/2)*zoom+yo && tt_y > (edges[i].label_y_nav-diameter_size/2)*zoom+yo) {
           tt.x=tt_x/zoom-xo; tt.y=tt_y/zoom-yo; 
           color c = color(0, 0, 80, 10); // color(0, 80, 255, 30);
           tt.setBackground(c); // color(0,80,255,30));
