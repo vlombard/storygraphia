@@ -2,10 +2,13 @@
 // ******** **** EXPORT GENERIC GRAPH **** ************ 
 // ******** ****************************** ************ 
 
+File cur_selection = null;
+
 void write_storygraph(File selection) { // responds to command 'w'; File is a Java class
   if (selection == null) {
     println("Window was closed or the user hit cancel.");
   } else {
+    cur_selection = selection;
     println("User selected " + selection.getAbsolutePath());
     JSONObject json_graph; json_graph = new JSONObject();
     // save graph name
@@ -29,6 +32,12 @@ void write_storygraph(File selection) { // responds to command 'w'; File is a Ja
           json_unit_tags.setJSONObject(j,json_tag);
         }
         json_node.setJSONArray("unit tags", json_unit_tags);
+        // MEDIA: save node image 
+        if (u.media_type.equals("image")) {
+          json_node.setString("media_type", "image");
+          u.node_image.save(u.id+"_img.png");
+          json_node.setString("node_image", u.id+"_img.png");
+        } else {json_node.setString("media_type", "null");}
         // PROPP TAG
         json_node.setFloat("unit propp tag index", u.unit_propp_tag_index);
         // CONSTRAINTS: preconditions and effects
@@ -116,6 +125,7 @@ void load_storygraph(File selection) { // File is a Java class
     println("Window was closed or the user hit cancel.");
   } else {
     println("User selected " + selection.getAbsolutePath());
+    cur_selection = selection;
     JSONObject json_graph;
     json_graph = loadJSONObject(selection.getAbsolutePath());
     // load name
@@ -126,19 +136,24 @@ void load_storygraph(File selection) { // File is a Java class
       JSONObject json_node = json_nodes.getJSONObject(i);
       //println("load_storygraph: node is " + json_node.getString("id"));
       // Node(float x_aux, float y_aux, String id_aux, String text_aux, String tag_aux)
-      Unit u = new Unit(json_node.getFloat("x")*zoom, json_node.getFloat("y")*zoom, 
-                          json_node.getFloat("w")*zoom, json_node.getFloat("h")*zoom, 
-                          json_node.getString("id"), json_node.getString("text"), "NULL TAG");       
+      Unit u = new Unit(json_node.getFloat("x"), json_node.getFloat("y"), 
+                          json_node.getFloat("w"), json_node.getFloat("h"), 
+                          json_node.getString("id"), json_node.getString("text"), "NULL TAG");   
       // TAGS
       JSONArray json_unit_tags = json_node.getJSONArray("unit tags"); int tags_number=json_unit_tags.size();
       if (tags_number > 0) {
         u.node_tags_counter = tags_number; 
         for (int j=0; j<u.node_tags_counter; j++) {
           JSONObject json_tag = new JSONObject(); json_tag = json_unit_tags.getJSONObject(j);
-          u.node_tags[j] = json_tag.getString(str(j)); update_tags(u.node_tags[j]);
+          u.node_tags[j] = json_tag.getString(str(j)); update_tags(u.node_tags[j], "ADD");
           // println("load_storygraph: tag " + u.node_tags[j]);
         }  
       } else {u.node_tags_counter = 0;}
+      // MEDIA 
+      if (json_node.getString("media_type")!=null) {
+        u.media_type = json_node.getString("media_type");
+        if (u.media_type.equals("image")) {u.node_image = loadImage(json_node.getString("node_image"));}
+      }
       // PROPP TAG
       u.unit_propp_tag_index = json_node.getInt("unit propp tag index");
       // STATES (preconditions and effects)
@@ -187,13 +202,13 @@ void load_storygraph(File selection) { // File is a Java class
     JSONArray json_agents = json_graph.getJSONArray("agents"); 
     for (int i=0; i<json_agents.size(); i++) {
       JSONObject json_agent = json_agents.getJSONObject(i);
-      update_agents(json_agent.getString("name"));
+      update_agents(json_agent.getString("name"), "ADD");
     }
     // load tags
     JSONArray json_tags = json_graph.getJSONArray("tags"); 
     for (int i=0; i<json_tags.size(); i++) {
       JSONObject json_tag = json_tags.getJSONObject(i);
-      update_tags(json_tag.getString("name"));
+      update_tags(json_tag.getString("name"), "ADD");
     }
     // load states
     JSONArray json_states = json_graph.getJSONArray("states"); 
@@ -220,11 +235,11 @@ void load_storytext(File selection) { // File is a Java class
       if (!lines[i].equals("")) {
         if (lines[i].charAt(0)=='[') { // this is a tag line
           // add this to tags
-          cur_tag = lines[i]; update_tags(cur_tag); println(cur_tag + " is a TAG!");
+          cur_tag = lines[i]; update_tags(cur_tag, "ADD"); println(cur_tag + " is a TAG!");
         } else { // this is a node line
           // Node(float x_aux, float y_aux, String id_aux, String text_aux, String tag_aux)
-          nodes[i_cur_node++] = new Unit(random(horizontal_offset-xo,(horizontal_offset+actual_width)-xo), 
-                                         random(vertical_offset-yo,(vertical_offset+actual_height)-yo), 
+          nodes[i_cur_node++] = new Unit(random(left_offset-xo,(left_offset+actual_width)-xo), 
+                                         random(top_offset-yo,(top_offset+actual_height)-yo), 
                                          diameter_size, diameter_size, 
                                          "N" + str(hour()) + str(minute()) + str(second()) + node_counter++, 
                                          lines[i], cur_tag);  

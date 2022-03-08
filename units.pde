@@ -20,6 +20,7 @@ class Unit extends Node {
     unit_propp_tag_index = -1; unit_tension = -1;
     unit_preconditions = new String[max_states]; unit_preconditions_counter=0;
     unit_effects = new String[max_states]; unit_effects_counter=0;
+    if (white_page) {white_page=false;}
   }
 
   void show_states() {
@@ -77,7 +78,10 @@ class Unit extends Node {
     // initialize_state_list(cur_unit_effects_from_checkbox); // reset the temporary list of effects
     // println("modified effects:"); for (int j=0; j<unit_effects_counter; j++) {print(" " + unit_effects[j]);}
   }
-  
+
+  // *** NEXT FOUR ARE UPDATES FOR PRECONDITIONS/EFFECTS CONSTRAINTS UNDER
+  // *** *** MODALITY SUBTRACTION (SCULPTURE): NO PRECONDITIONS -> ALL UNITS CAN PRECEDE
+  // *** *** MODALITY ADDITION (PAINTING): NO PRECONDITIONS -> NO UNIT CAN PRECEDE
   void update_constraints_edges_preconditions() { // update edges that get at this node (head)
     // println("update_constraints_edges() for " + i_cur_node + " nodes and " + i_cur_edge + " edges");
     if (plot_generation_mode == "CONSTRAINTS") {
@@ -93,6 +97,8 @@ class Unit extends Node {
           if (!found) {satisfied=false;}
           p++;
         } // END WHILE 
+        if (plot_generation_submode.equals("SCULPTURE") && unit_preconditions_counter==0) {satisfied=true;}
+        else if (plot_generation_submode.equals("PAINTING") && unit_preconditions_counter==0) {satisfied=false;}
         if (satisfied && search_edge_head_tail_index(searchNodeIdIndex(id), i)==-1) { // if all preconditions matched and edge does not exist, create edge
           // println("unit "+i+".unit_effects["+is+"] = " + ui.unit_effects[is]); println("unit "+j+".unit_preconditions["+js+"] = " + uj.unit_preconditions[js]); 
           edges[i_cur_edge]=new Edge(id, ui.id, "e"+str(i_cur_edge), "NULL"); 
@@ -121,6 +127,8 @@ class Unit extends Node {
           if (!found) {satisfied=false;}
           p++;
         }
+        if (plot_generation_submode.equals("SCULPTURE") && ui.unit_preconditions_counter==0) {satisfied=true;}
+        else if (plot_generation_submode.equals("PAINTING") && ui.unit_preconditions_counter==0) {satisfied=false;}
         if (satisfied && search_edge_head_tail_index(i, searchNodeIdIndex(id))==-1) {           
           // println("unit "+i+".unit_effects["+is+"] = " + ui.unit_effects[is]); println("unit "+j+".unit_preconditions["+js+"] = " + uj.unit_preconditions[js]); 
           edges[i_cur_edge]=new Edge(ui.id, id, "e"+str(i_cur_edge), "NULL"); 
@@ -165,14 +173,21 @@ class Unit extends Node {
       draw_node();
     }
   } // END draw_node
-  
+
+  void draw_unit_in_nav(String cur_pre_sub) {
+    // PRINT CHECK: println("Drawing unit " + id);
+    if (!deleted) {
+      draw_node_in_nav(cur_pre_sub);
+    }
+  } // END draw_node
+
   void draw_unit_agents() {
     //println("draw_unit_agents: " + unit_agents_counter);
     if (unit_agents_counter>0) {
       float arc_interval = TWO_PI / unit_agents_counter; 
       for (int i=0; i<unit_agents_counter; i++) {
         Agent a = searchAgent(unit_agents[i]);
-        if (a!=null) {
+        if (a!=null && !a.deleted) {
           stroke(a.agent_color); strokeWeight(margin); // stroke(grey_level); // color: grey filling
           arc(x, y, w+margin, h+margin, i*arc_interval, (i+1)*arc_interval);
         }
@@ -180,27 +195,44 @@ class Unit extends Node {
     }
   }
   
-  void add_unit_agent() {
-    String agt_name_aux = showInputDialog("Please enter agent");
-    // if (text_aux == null) exit(); else
-    if (agt_name_aux == null || agt_name_aux.equals(""))
-      showMessageDialog(null, "Empty input!!!", "Alert", ERROR_MESSAGE);
-    else if (searchStringIndex(agt_name_aux, unit_agents, 0, unit_agents_counter)!=-1)
-      showMessageDialog(null, "Agent \"" + agt_name_aux + "\" already in this unit!!!", "Alert", ERROR_MESSAGE);
-    else {
-      showMessageDialog(null, "Agent \"" + agt_name_aux + "\" successfully added to unit!!!", "Info", INFORMATION_MESSAGE);
+  void add_unit_agent(String agt_name) {
+    String agt_name_aux = agt_name;
+    if (agt_name.equals("NULL")) {
+      agt_name_aux = showInputDialog("Please enter agent");
+      // if (text_aux == null) exit(); else
+      if (agt_name_aux == null || agt_name_aux.equals(""))
+        showMessageDialog(null, "Empty input!!!", "Alert", ERROR_MESSAGE);
+      else if (searchStringIndex(agt_name_aux, unit_agents, 0, unit_agents_counter)!=-1)
+        showMessageDialog(null, "Agent \"" + agt_name_aux + "\" already in this unit!!!", "Alert", ERROR_MESSAGE);
+      else
+        showMessageDialog(null, "Agent \"" + agt_name_aux + "\" successfully added to unit!!!", "Info", INFORMATION_MESSAGE);
+    }
+    if (searchStringIndex(agt_name_aux, unit_agents, 0, unit_agents_counter)==-1) {
       unit_agents[unit_agents_counter++]=agt_name_aux;
-      update_agents(agt_name_aux);
+      update_agents(agt_name_aux, "ADD");
     }
   }
 
+  void delete_unit_agent(String agt_name) {
+    int agent_index = searchStringIndex(agt_name, unit_agents, 0, unit_agents_counter);
+    if (agent_index!=-1) {
+      unit_agents = deleteStringByIndex(agent_index, unit_agents);
+      unit_agents_counter--;
+    }
+  }
+  
+  void modify_agent_name(String old_name, String new_name) {
+    // replaceString(String old_name, String new_name, String[]list, int left, int right)
+    replaceString(old_name, new_name, unit_agents, 0, unit_agents_counter);
+  }
+  
   void modify_tension() {    
-    int n = int(showInputDialog("Please enter tension:", unit_tension+"[1-100]")); 
+    int n = int(showInputDialog("Please enter tension [1-100]:", unit_tension)); 
     if (n < 1 || n > 100) {
       showMessageDialog(null, "Empty input!!!", "Alert", ERROR_MESSAGE);
     } else {
-      unit_tension = n;
-      showMessageDialog(null, "Tension \"" + n + "\" successfully added to unit!!!", "Info", INFORMATION_MESSAGE);
+      if (unit_tension!=n) {showMessageDialog(null, "Tension \"" + n + "\" successfully added to unit!!!", "Info", INFORMATION_MESSAGE);}
+      unit_tension = n;  
       y = tension_position(unit_tension)/zoom-yo;
     }
   }

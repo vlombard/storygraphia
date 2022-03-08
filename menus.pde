@@ -42,8 +42,8 @@ void tags_checkbox_setup() {
                 //.deactivateAll();
   tags_checkbox.addItem("NEW TAG", 0);
   // i_cur_tag_checkbox = 0;
-  cur_node_tags_from_checkbox = new String[max_tags];
-  for (int i=0; i<max_tags; i++) {cur_node_tags_from_checkbox[i]="NULL TAG";}
+  cur_node_tags_from_checkbox = new String[total_tags];
+  for (int i=0; i<total_tags; i++) {cur_node_tags_from_checkbox[i]="NULL TAG";}
 }
 
 CheckBox propp_checkbox;
@@ -61,8 +61,10 @@ void propp_checkbox_setup() {
                 .setSpacingRow(2)
                 .hide();
                 // .deactivateAll();
-  for (int i=0; i<proppTags.length; i++) {propp_checkbox.addItem(proppTags[i], i);
-    print (propp_checkbox.getItem(i).getName() + " ");
+  for (int i=0; i<proppTags.length; i++) {
+    propp_checkbox.addItem(proppTags[i], i);
+    // print (propp_checkbox.getItem(i).getName() + " ");
+    propp_checkbox.getItem(i).getCaptionLabel().alignX(RIGHT)._myPaddingX=propp_checkbox.getItem(i).getWidth();
   }
 }
 
@@ -99,7 +101,8 @@ void state_checkbox_setup() {
                 //.deactivateAll();
   preconditions_checkbox.addItem("NEW PRECOND", i_cur_preconditions_checkbox); 
   preconditions_checkbox.getItem(i_cur_preconditions_checkbox).getCaptionLabel().alignX(RIGHT)._myPaddingX=preconditions_checkbox.getItem(i_cur_preconditions_checkbox).getWidth();
-  effects_checkbox.addItem("NEW EFFECT", i_cur_effects_checkbox);
+  i_cur_preconditions_checkbox++;
+  effects_checkbox.addItem("NEW EFFECT", i_cur_effects_checkbox++);
   // i_cur_state_checkbox = 0; // USELESS???
   cur_unit_preconditions_from_checkbox = new String[max_states];
   cur_unit_effects_from_checkbox = new String[max_states]; 

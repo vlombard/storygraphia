@@ -1,7 +1,7 @@
 PrintWriter storyprint; // file that contains the story print
 
 void headerStoryCountAndPrint() {
-  storyprint = createWriter("data/storyprint.txt");
+  storyprint = createWriter("storyprints/"+graph_name+"_storyprint.txt");
   storyprint.println("STORYGRAPHIA STORY PRINT"); // header 
   storyprint.println("===================================================== \n"); 
   int num_stories = storyCountAndPrint("", "", -1, 0); // empty story, empty unit list, no last unit, 0 stories
@@ -35,8 +35,8 @@ int storyCountAndPrint(String preStory, String unit_list, int lastUnitIndex, int
       } // END if correct START
     } else { // else (story is not empty)
       int edge_index = search_edge_head_tail_index(i,lastUnitIndex);
-      if (edge_index!=-1) {// if lastUnit is a previous unit of the current one 
-        String new_story = story + "\n- \n" + u.text; // add unit text to story        
+      if (edge_index!=-1) {// if lastUnit is a previous unit of the current one  
+        String new_story = story + "\n-\n--> " + edges[edge_index].label + "\n-\n" + u.text; // add unit text to story        
         if (unitType(u).equals("END")) { // if unit type = END 
           // increment count and print story in the output file; then exit
           count++;
