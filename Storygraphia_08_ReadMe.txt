@@ -1,5 +1,5 @@
-Storygraphia 0.8 (released under GNU General Public License version 3 - Vincenzo Lombardo)
-18 October 2020
+Storygraphia 0.91 (released under GNU General Public License version 3 - Vincenzo Lombardo)
+18 Febrauary 2022
 
 
 USER MANUAL
