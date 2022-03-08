@@ -1,37 +1,66 @@
 Keyboard commands
 
+UNITS
 CREATE A NEW UNIT: keyboard press "u"; unit appears at window center
+MOVE A UNIT: mouse drag'n'drop, while keyboard press "m"
+MODIFY TEXT OF A UNIT: keyboard press "t"; then, enter new text
+
+EDGES
 CREATE A NEW EDGE: 
 	select first node (tail); 
         then, press "e";
 	then select second node (head); 	
+MODIFY LABEL OF AN EDGE: keyboard press "l"; then, enter new label
+
 SELECT A UNIT/EDGE: MOUSE click on unit or edge label to select ("z" to UNSELECT)
-MOVE A UNIT: mouse drag'n'drop, while keyboard press "m"
 DELETE A UNIT/EDGE: after selection of unit/edge, keyboard press "d" (deletion of unit
   causes deletion of all edges connected to it)
 MODIFY IDENTIFIER OF A UNIT/EDGE: keyboard press "i"; then, enter new ID
-MODIFY TEXT OF A UNIT: keyboard press "t"; then, enter new text
-MODIFY LABEL OF AN EDGE: keyboard press "l"; then, enter new label
-ADD AGENT TO A UNIT: keyboard press "a"; then, enter agent name
+
+AGENTS
+ADD NEW AGENT TO A UNIT (AND THE STORY): 
+	select unit;
+	keyboard press "a"; 
+	then, enter new agent name
+ADD/DELETE AGENT TO A UNIT: 
+	select unit
+	select agent on the left column
+	keyboard press "a"/"d"; 
+DELETE AGENT FROM THE STORY: 
+	select agent on the left column; 
+	then, press "d"
+CHANGE NAME TO AGENT: 
+	select agent on the left column; 
+	press "t"; 
+	enter new agent name
+
+TAG
 SELECT/ADD TAGS TO A UNIT:
-	select node (tag menu appears); 
-	check tag boxes required, possibly after creating new tag, through menu item "NEW TAG"
-        then, press "g";
+	select node (tag menu appears on the right); 
+	check/uncheck tag boxes required, possibly creating new tag, through menu item "NEW TAG"
+         then, press "g";
+SELECT PROPP TAG TO A UNIT:
+	select node (Propp tag menu appears on the left); 
+	check/uncheck single Propp tag required
+         then, press "r";
 SELECT/ADD PRECONDITION/EFFECT TO A UNIT:
 	select node (preconditions and effects menus appears); 
-	check tag box on men, possibly after creating new tag, through menu item "NEW TAG"
-        then, press "g";
+	check/uncheck tag box on menu, possibly after creating new p/e, through menu item "NEW PRECOND"/"NEW EFFECT"
+         then, press "s";
 INSERT/MODIFY TENSION VALUE: keyboard press "y"; then, enter tension value as integer [1,100]
-SAVE A STORYGRAPH: keyboard press "w" and file selection (.json extension)
+DELETE TAG FROM ALL UNITS (I.E. FROM THE STORY):
+	select tag on the right column
+	  then, press "d"
+
+GENERAL COMMANDS
+SAVE A STORYGRAPH: keyboard press "w" (for first time, new filename, .json extension)
+  saving also prints a storyprint file in the "storyprints" folder
 HELP: keyboard press "h"
 EXIT: keyboard press "q"
-
-KEYBOARD RESUME
-w = write story graph (file xxx.json)
-d = delete the node currently selected and all edges connected to it
 
 ZOOM-IN/OUT: keyboard press "+"/"-"
 MOVE GRAPH: keyboard press arrows
 RESTORE ORIGINAL DISPLAY SIZE: keyboard press "blank space"
 
-        EXIT this menu: keyboard press "z"
+
+                                         EXIT this menu: keyboard press "z"
