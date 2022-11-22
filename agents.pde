@@ -8,11 +8,11 @@ int i_select_agent;
 
 void agents_settings() {
   total_agents = 1000; 
-  i_cur_agent = 0;
-  i_select_agent = -1;
 }
 
 void agents_setup() {
+  i_cur_agent = 0;
+  i_select_agent = -1;
   agents = new Agent[total_agents]; 
   agent_ids = new String[total_agents];
 }
@@ -33,7 +33,7 @@ void agents_position_setup() {
     if (agent_height >= diameter_size) {agent_height=diameter_size;} 
     for (int i=0; i < i_cur_agent; i++) {
       agents[i].h = agent_height; agents[i].w = agents[i].h; // square
-      agents[i].x = agents[i].w/2; agents[i].y = top_offset + (agent_height + margin)*(i + 0.5);
+      agents[i].x = (agents[i].w/2)/zoom-xo; agents[i].y = (top_offset + (agent_height + margin)*(i + 0.5))/zoom-yo;
       agents[i].tooltip.x = agents[i].x; agents[i].tooltip.y = agents[i].y;
     }
   }
@@ -67,8 +67,8 @@ int agent_click() {
   int i_select_aux=-1;
   float x = mouseX; float y = mouseY; // capture mouse position
   for (int i=0; i<i_cur_agent; i++) { // for each agent 
-    if (x < (agents[i].x+agents[i].w/2)*zoom && x > (agents[i].x-agents[i].w/2)*zoom && // if the mouse is over the agent box
-        y < (agents[i].y+agents[i].h/2)*zoom && y > (agents[i].y-agents[i].h/2)*zoom) {
+    if (x < (agents[i].x+agents[i].w/2)*zoom+xo && x > (agents[i].x-agents[i].w/2)*zoom+xo && // if the mouse is over the agent box
+        y < (agents[i].y+agents[i].h/2)*zoom+yo && y > (agents[i].y-agents[i].h/2)*zoom+yo) {
         i_select_aux=i; 
     }
   } // END FOR
@@ -99,11 +99,11 @@ void draw_agents() {
     else {fill(agents[i].agent_color);} 
     if (!agents[i].deleted) {
       rectMode(CENTER);
-      rect(agents[i].x/zoom-xo,agents[i].y/zoom-yo,agents[i].w,agents[i].h);
+      rect(agents[i].x,agents[i].y,agents[i].w,agents[i].h);
       fill(text_color);
       flex_write_lines_in_box(agents[i].id, default_font_name, default_font_aspect_ratio, 
                               "CENTER", "CENTER", 
-                              agents[i].x/zoom-xo, agents[i].y/zoom-yo, agents[i].w, agents[i].h);
+                              agents[i].x, agents[i].y, agents[i].w, agents[i].h);
     }
   }
 }
@@ -143,7 +143,7 @@ class Agent {
   }
 
   void delete() {
-    // println("deleting agent " + name); //<>//
+    // println("deleting agent " + name); //<>// //<>//
     deleted = true; 
     // deleted_nodes[num_deleted++]=i;
     for (int j=0; j<i_cur_node; j++) {
@@ -175,9 +175,12 @@ class Agent {
         u.modify_agent_name(name, name_aux);
       }
       name=name_aux; tooltip.text=name;
-      String old_id = id;
+      // String old_id = id;
+      int i = searchStringIndex(id, agent_ids, 0, i_cur_agent);
+      agent_ids = deleteStringByIndex(i, agent_ids); i_cur_agent--; // temporarily, agents are decreased
       id = create_agent_id(name); 
-      replaceString(old_id, id, agent_ids, 0, i_cur_agent);
+      agent_ids = insertStringAtIndex(id, i, agent_ids); i_cur_agent++;
+      // replaceString(old_id, id, agent_ids, 0, i_cur_agent);
       }
     }
   }
@@ -207,8 +210,8 @@ void agent_layover() {
   float x = mouseX; float y = mouseY; // capture mouse position
   for (int i=0; i<i_cur_agent; i++) { // for each agent 
     ToolTip tt = agents[i].tooltip; 
-    if (x < (agents[i].x+agents[i].w/2)*zoom && x > (agents[i].x-agents[i].w/2)*zoom) { // if the mouse is over such box
-      if (y < (agents[i].y+agents[i].h/2)*zoom && y > (agents[i].y-agents[i].h/2)*zoom) {
+    if (x < (agents[i].x+agents[i].w/2)*zoom+xo && x > (agents[i].x-agents[i].w/2)*zoom+xo) { // if the mouse is over such box
+      if (y < (agents[i].y+agents[i].h/2)*zoom+yo && y > (agents[i].y-agents[i].h/2)*zoom+yo) {
         tt.x= x-xo; tt.y= y-yo; 
         color c = color(0, 0, 80, 10); // color(0, 80, 255, 30);
         tt.setBackground(c); // color(0,80,255,30));

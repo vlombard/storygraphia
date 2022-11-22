@@ -47,50 +47,46 @@ class ToolTip{
 } // END CLASS ToolTip
 
 
-// text layover through tooltip
+// text layover through tooltip, in editing mode
 void layover() {
   // search for the tooltips to display
-  //* float x = mouseX-xo; float y = mouseY-yo; // capture mouse position
   float tt_x = mouseX; float tt_y = mouseY; // capture mouse position
   for (int i=0; i<i_cur_node; i++) { // for each node that includes a tooltip 
     if (!nodes[i].deleted) {
       ToolTip tt = nodes[i].tooltip; 
-      //* if (x < (nodes[i].x+nodes[i].w/2)*zoom && x > (nodes[i].x-nodes[i].w/2)*zoom) { // if the mouse is over such box
-        //* if (y < (nodes[i].y+nodes[i].h/2)*zoom && y > (nodes[i].y-nodes[i].h/2)*zoom) {
       if (tt_x < (nodes[i].x+nodes[i].w/2)*zoom+xo && tt_x > (nodes[i].x-nodes[i].w/2)*zoom+xo) { // if the mouse is over such box
         if (tt_y < (nodes[i].y+nodes[i].h/2)*zoom+yo && tt_y > (nodes[i].y-nodes[i].h/2)*zoom+yo) {
           tt.x=tt_x/zoom-xo; tt.y=tt_y/zoom-yo; 
-          //color c = color(0, 0, 80, 10); // color(0, 80, 255, 30);
-          //tb.tooltip.setBackground(c); // color(0,80,255,30));
           tt.display();
         }
       }
     }
   } // END FOR nodes
-  for (int i=0; i<i_cur_edge; i++) { // for each node that includes a tooltip 
-    if (!edges[i].deleted) {
-      ToolTip tt = edges[i].tooltip; 
-      int head_index = searchNodeIdIndex(edges[i].head_id); 
+  for (int i=0; i<i_cur_edge; i++) { // for each edge  
+    if (!edges[i].deleted) { // if not deleted
+      ToolTip tt = edges[i].tooltip; // retrieve tooltip
+      // retrieve head and tail nodes
+      int head_index = searchNodeIdIndex(edges[i].head_id);  
       int tail_index = searchNodeIdIndex(edges[i].tail_id);
       Node head = nodes[head_index]; 
       Node tail = nodes[tail_index];
+      // retrieve edge label coordinates
       float edgeLabel_x = (tail.x + head.x) / 2;
       float edgeLabel_y = (tail.y + head.y) / 2;
-      //* if (x < (edgeLabel_x+diameter_size/2)*zoom && x > (edgeLabel_x-diameter_size/2)*zoom) { // if the mouse is over such box
-        //* if (y < (edgeLabel_y+diameter_size/2)*zoom && y > (edgeLabel_y-diameter_size/2)*zoom) {
       if (tt_x < (edgeLabel_x+diameter_size/2)*zoom+xo && tt_x > (edgeLabel_x-diameter_size/2)*zoom+xo) { // if the mouse is over such box
         if (tt_y < (edgeLabel_y+diameter_size/2)*zoom+yo && tt_y > (edgeLabel_y-diameter_size/2)*zoom+yo) {
           tt.x=tt_x/zoom-xo; tt.y=tt_y/zoom-yo; 
           color c = color(0, 0, 80, 10); // color(0, 80, 255, 30);
           tt.setBackground(c); // color(0,80,255,30));
-          tt.display();
+          tt.display(); // display the tooltip
         }
       }
     }
-  } // END FOR 
+  } // END FOR each edge
+  
 }
 
-// text layover through tooltip
+// text layover through tooltip, in navigation mode
 void layover_nav() {
   // search for the tooltips to display
   float tt_x = mouseX; float tt_y = mouseY; // capture mouse position

@@ -6,8 +6,20 @@ void headerStoryCountAndPrint() {
   storyprint.println("===================================================== \n"); 
   int num_stories = storyCountAndPrint("", "", -1, 0); // empty story, empty unit list, no last unit, 0 stories
   storyprint.println("===================================================== \n"); 
-  float ratio = (float) num_stories / i_cur_node;
-  storyprint.println(" STORYGRAPHIA, " + num_stories + " potential linear stories, ratio " + ratio); 
+  String propp_used="NO Propp functions"; 
+  String precond_eff_used="NO logic constraints"; 
+  String arc_used="NO tension arc";
+  float ratio = (float) num_stories / i_cur_node; // computing ratio
+  for (int i=0; i<i_cur_node; i++) { // checking constraints used
+    Unit u = (Unit) nodes[i];
+    if (u.unit_propp_tag_index!=-1) {propp_used="Propp functions";}
+    if (u.unit_effects_counter!=0) {precond_eff_used="Logic constraints";}
+    if (u.unit_tension!=-1) {arc_used="Tension arc";}
+  }
+  storyprint.println(" STORYGRAPHIA STATISTICS, " + graph_name); 
+  storyprint.println(i_cur_node + " units, " + i_cur_tag + " tags " + i_cur_agent + " agents "); 
+  storyprint.println(propp_used + ", " + precond_eff_used + ", " + arc_used); 
+  storyprint.println(num_stories + " potential linear stories, ratio " + ratio); 
   storyprint.flush();
 }
 

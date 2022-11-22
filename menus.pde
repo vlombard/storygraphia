@@ -77,6 +77,7 @@ String[] cur_unit_effects_from_checkbox;
 // String[] cur_unit_states_from_checkbox;
 
 void state_checkbox_setup() {
+  i_cur_preconditions_checkbox=0; i_cur_effects_checkbox=0;
   preconditions_checkbox = cp5.addCheckBox("preconditionsBox")                
                 .setPosition(0, 0)
                 .setColorForeground(color(0, 50, 100)) // light red

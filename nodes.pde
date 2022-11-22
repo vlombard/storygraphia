@@ -1,11 +1,11 @@
 // GRAPH NODES: GLOBAL VARIABLES
 int totalNum; 
-int num = 0; 
-int num_deleted = 0;
+// int num = 0; 
+// int num_deleted = 0;
 Node[] nodes; // array of nodes
-int i_cur_node = 0; 
+int i_cur_node = 0; // cursor on nodes
 int node_counter = 0;
-int[] deleted_nodes; // nodes deleted in one session
+// int[] deleted_nodes; // nodes deleted in one session
 float diameter_size; 
 float cur_node_size_in_nav;
 color node_color;
@@ -19,9 +19,17 @@ void generic_graph_settings() {
   total_num_edges=totalNum^2;
   nodes = new Node[totalNum];
   edges = new Edge[total_num_edges];
-  deleted_nodes = new int[totalNum]; 
+  // deleted_nodes = new int[totalNum]; 
   predecessor_node_ids = new String[totalNum]; i_cur_predecessor=-1;
   subsequent_node_ids = new String[totalNum]; i_cur_subsequent=-1;
+}
+
+void generic_graph_setup() {
+  i_cur_node = 0;
+  i_cur_edge = 0;
+  num_edges = 0;
+  i_cur_predecessor=-1;
+  i_cur_subsequent=-1;
 }
 
 class Node {
@@ -134,7 +142,7 @@ class Node {
 
   // node DRAWING in NAV
   void draw_node_in_nav(String cur_pre_sub) {
-    // println("Draw node " + id); // PRINT CHECK: //<>//
+    // println("Draw node " + id); // PRINT CHECK: //<>// //<>//
     if (cur_pre_sub.equals("cur")) { // draw the current node
       // *** draw node and text
       fill(compute_node_color());
@@ -166,7 +174,7 @@ class Node {
     }
   } // END draw_node
 
-  void compute_pred_subs() { //<>//
+  void compute_pred_subs() { //<>// //<>//
     i_cur_predecessor=0; i_cur_subsequent=0;
     for (int i=0; i<i_cur_edge; i++) {
       Edge e = edges[i];

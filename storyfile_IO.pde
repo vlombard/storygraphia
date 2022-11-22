@@ -116,6 +116,84 @@ void write_storygraph(File selection) { // responds to command 'w'; File is a Ja
 }
 
 
+void write_twine_graph(File selection) { // responds to Twine export button; File is a Java class
+  if (selection == null) {
+    println("Window was closed or the user hit cancel.");
+  } else {
+    cur_selection = selection;
+    println("User selected " + selection.getAbsolutePath());
+    // preamble of the HTML file
+    // String[] preamble = {"<!DOCTYPE html>","<html>","<head>","<meta charset=\"utf-8\">",
+                      // "<meta content=\"width=device-width, initial-scale=1\" name=\"viewport\">","<title>",
+                      // graph_name,
+                      // "</title>","</head>","<body>"};
+    String preamble = "<!DOCTYPE html>"+"\n<html>"+"\n<head>"+"\n<meta charset=\"utf-8\">"+
+                      "\n<meta content=\"width=device-width, initial-scale=1\" name=\"viewport\">"+"\n<title>"+
+                      graph_name+
+                      "\n</title>"+"\n</head>"+"\n<body>";
+    String postamble = "\n</body>"+"\n</html>";
+    
+    // XML structure of story graph  
+    XML tw_storydata; tw_storydata = new XML("tw-storydata");
+    tw_storydata.setString("name",graph_name);
+    tw_storydata.setString("creator","Storygraphia");
+    tw_storydata.setString("creator-version","0.9.3");
+    tw_storydata.setString("format","Harlowe");
+    tw_storydata.setString("format-version","3.3.3");
+    tw_storydata.setString("tags","");
+    tw_storydata.setString("zoom","1");
+    
+    XML[] tw_passagedatae; tw_passagedatae = new XML[i_cur_node]; 
+    
+    // for each unit 
+    for (int i=0; i<i_cur_node; i++) {
+      Unit u = (Unit) nodes[i];
+      if (!nodes[i].deleted) {
+        tw_passagedatae[i] = new XML("tw-passagedata");
+        // create attributes-values from unit data
+        tw_passagedatae[i].setString("pid",str(i));
+        tw_passagedatae[i].setString("name",u.id);
+        // tags
+        String tags = "";
+        for (int t=0; t<u.node_tags_counter; t++) {
+          tags = tags + u.node_tags[t];
+        }
+        tw_passagedatae[i].setString("tags",tags);
+        tw_passagedatae[i].setString("position",str(u.x+actual_width/2)+","+str(u.y+actual_height/2));
+        float unit_side = (actual_width+actual_height)/i_cur_node;
+        tw_passagedatae[i].setString("size",str(unit_side)+","+str(unit_side));
+        // create content string c from text
+        String content = "\n"+u.text;
+        // for each edge
+        for (int j=0; j<i_cur_edge; j++) {
+          Edge e = (Edge) edges[j];
+          if (!edges[j].deleted) {
+          // if the edge has this unit as tail
+            if (e.tail_id.equals(u.id)) {
+              // accumulate content in the content string c 
+              content = content + "\n" + "[[" + e.label + "|" + e.head_id + "]]";
+            } // END if tail = u
+        } // END if edge not deleted
+      } // END for each edge
+      // setContent c
+      tw_passagedatae[i].setContent(content);
+      // addChild to array tw_passagedatae
+      tw_storydata.addChild(tw_passagedatae[i]);
+      } // END if node not deleted
+    } // END for each unit
+    PrintWriter output;
+    // Create a new file in the sketch directory
+    output = createWriter(selection.getAbsolutePath()); 
+    output.println(preamble);
+    output.println(tw_storydata.toString());
+    //saveXML(tw_storydata,selection.getAbsolutePath());
+    output.println(postamble);
+    output.flush();
+    output.close();
+  }
+}
+
+
 // ******** ****************************** ************ 
 // ******** **** IMPORT GENERIC GRAPH **** ************ 
 // ******** ****************************** ************ 
@@ -238,8 +316,8 @@ void load_storytext(File selection) { // File is a Java class
           cur_tag = lines[i]; update_tags(cur_tag, "ADD"); println(cur_tag + " is a TAG!");
         } else { // this is a node line
           // Node(float x_aux, float y_aux, String id_aux, String text_aux, String tag_aux)
-          nodes[i_cur_node++] = new Unit(random(left_offset-xo,(left_offset+actual_width)-xo), 
-                                         random(top_offset-yo,(top_offset+actual_height)-yo), 
+          nodes[i_cur_node++] = new Unit(random(left_offset/zoom-xo,(left_offset+actual_width)/zoom-xo), 
+                                         random(top_offset/zoom-yo,(top_offset+actual_height)/zoom-yo), 
                                          diameter_size, diameter_size, 
                                          "N" + str(hour()) + str(minute()) + str(second()) + node_counter++, 
                                          lines[i], cur_tag);  

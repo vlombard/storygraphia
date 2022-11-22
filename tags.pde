@@ -8,11 +8,11 @@ int i_select_tag;
 
 void tags_settings() {
   total_tags = 1000;
-  i_cur_tag = 0;
-  i_select_tag = -1;
 }
 
 void tags_setup() {
+  i_cur_tag = 0;
+  i_select_tag = -1;
   tags = new Tag[total_tags];
   tag_ids = new String[total_tags];
 }
@@ -33,7 +33,7 @@ void tags_position_setup() {
     if (tag_height >= diameter_size) {tag_height=diameter_size;} // not more than diameter_size
     for (int i=0; i < i_cur_tag; i++) {
       tags[i].h = tag_height; tags[i].w = right_offset; // rectangle
-      tags[i].x = width - tags[i].w/2; tags[i].y = top_offset + (tag_height + margin)*(i + 0.5);
+      tags[i].x = (width - tags[i].w/2)/zoom-xo; tags[i].y = (top_offset + (tag_height + margin)*(i + 0.5))/zoom-yo;
       tags[i].tooltip.x = tags[i].x; tags[i].tooltip.y = tags[i].y;
     }
   }
@@ -70,8 +70,8 @@ int tag_click() {
   int i_select_aux=-1;
   float x = mouseX; float y = mouseY; // capture mouse position
   for (int i=0; i<i_cur_tag; i++) { // for each agent 
-    if (x < (tags[i].x+tags[i].w/2)*zoom && x > (tags[i].x-tags[i].w/2)*zoom && // if the mouse is over the tag box
-        y < (tags[i].y+tags[i].h/2)*zoom && y > (tags[i].y-tags[i].h/2)*zoom) {
+    if (x < (tags[i].x+tags[i].w/2)*zoom+xo && x > (tags[i].x-tags[i].w/2)*zoom+xo && // if the mouse is over the tag box
+        y < (tags[i].y+tags[i].h/2)*zoom+yo && y > (tags[i].y-tags[i].h/2)*zoom+yo) {
         i_select_aux=i; 
     }
   } // END FOR
@@ -79,7 +79,7 @@ int tag_click() {
 }
 
 void tag_selection() {
-  int i_select_aux = tag_click(); // choose an agent
+  int i_select_aux = tag_click(); // choose a tag
   if (i_select_aux!=-1) { // if successful
     if (selection_possible) { // if nothing was selected before
       i_select_tag = i_select_aux; select_type = "TAG";  selection_possible=false;
@@ -88,9 +88,6 @@ void tag_selection() {
       if (i_select_tag==i_select_aux) { // if same agent, deselect
         i_select_tag = -1; select_type = "NULL";  selection_possible=true;
       }
-    //} else
-    //if (select_type.equals("NODE")) { // if previous selection is a node, allow agent selection
-    //  i_select_agent = i_select_aux; select_type = "NODE+AGENT";  selection_possible=false;
     }
   } // END TAG WAS SELECTED
 }
@@ -102,11 +99,11 @@ void draw_tags() {
     else {fill(tags[i].tag_color);} 
     if (!tags[i].deleted) {
       rectMode(CENTER);
-      rect(tags[i].x/zoom-xo,tags[i].y/zoom-yo,tags[i].w,tags[i].h);
+      rect(tags[i].x,tags[i].y,tags[i].w,tags[i].h);
       fill(text_color);
       flex_write_lines_in_box(tags[i].id, default_font_name, default_font_aspect_ratio, 
                               "CENTER", "CENTER", 
-                              tags[i].x/zoom-xo, tags[i].y/zoom-yo, tags[i].w, tags[i].h);
+                              tags[i].x, tags[i].y, tags[i].w, tags[i].h);
     }
   }
 }
@@ -181,9 +178,9 @@ void tag_layover() {
   float x = mouseX; float y = mouseY; // capture mouse position
   for (int i=0; i<i_cur_tag; i++) { // for each tag 
     ToolTip tt = tags[i].tooltip; 
-    if (x < (tags[i].x+tags[i].w/2)*zoom && x > (tags[i].x-tags[i].w/2)*zoom) { // if the mouse is over such tag box
-      if (y < (tags[i].y+tags[i].h/2)*zoom && y > (tags[i].y-tags[i].h/2)*zoom) {
-        tt.x= x-xo; tt.y= y-yo; 
+    if (x < (tags[i].x+tags[i].w/2)*zoom+xo && x > (tags[i].x-tags[i].w/2)*zoom+xo) { // if the mouse is over such tag box
+      if (y < (tags[i].y+tags[i].h/2)*zoom+yo && y > (tags[i].y-tags[i].h/2)*zoom+yo) {
+        tt.x= x/zoom-xo; tt.y= y/zoom-yo; 
         color c = color(0, 0, 80, 10); // color(0, 80, 255, 30);
         tt.setBackground(c); // color(0,80,255,30));
         tt.display();
@@ -239,9 +236,12 @@ class Tag {
         nodes[i].modify_tag_name(name, name_aux);
       }
       name=name_aux; tooltip.text=name;
-      String old_id = id;
+      // String old_id = id;
+      int i = searchStringIndex(id, tag_ids, 0, i_cur_tag);
+      tag_ids = deleteStringByIndex(i, tag_ids); i_cur_tag--; // temporarily, tags are decreased
       id = create_tag_id(name); 
-      replaceString(old_id, id, tag_ids, 0, i_cur_tag);
+      tag_ids = insertStringAtIndex(id, i, tag_ids); i_cur_tag++;
+      // replaceString(old_id, id, tag_ids, 0, i_cur_tag);
       }
     }
   }  

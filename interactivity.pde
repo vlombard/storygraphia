@@ -24,27 +24,45 @@ boolean display_b = false;
 // %%%%%%% INITIALIZATION 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-String start = "Start a new graph from scratch"; String init = "Init graph nodes from text file"; String load = "Load a saved graph";
+String start = "Start a new graph";
+String scratch = "from scratch (white page)"; String file = "from text file (one unit per row)"; 
+// String init = "Init graph nodes from text file"; 
+String load = "Load a saved graph";
 String manual = "Manual (default)"; String propp = "Propp categories + tags"; 
 String pe_constraints_sculpture = "PRECOND-EFFECT constraints (SCULPTURE)"; String pe_constraints_painting = "PRECOND-EFFECT constraints (PAINTING)"; 
 String dramatic_arc = "Dramatic arc (tension value)";
 
-rectButton start_button, init_button, load_button, manual_button, propp_button, constraints_sculpture_button, constraints_painting_button, arc_button;
+rectButton start_button, init_button, load_button, 
+           scratch_button, file_button, 
+           manual_button, propp_button, constraints_sculpture_button, constraints_painting_button, arc_button;
 
 void initial_page_setup() { 
   float button_height = 2*default_font_size;
   float start_width = start.length()*default_font_size*default_font_aspect_ratio+margin;
-  start_button = new rectButton("start_button", start, 
-    (width/2-margin-start_width/2)*zoom-xo, (2*height/6-5*default_font_size)*zoom-yo, 
-    start_width, button_height, color(45, 20, 100), text_color, default_font_size); 
-  float init_width = init.length()*default_font_size*default_font_aspect_ratio+margin;
-  init_button = new rectButton("init_button", init, 
-    (width/2-margin-init_width/2)*zoom-xo, (3*height/6-5*default_font_size)*zoom-yo, 
-    init_width, button_height, color(45, 40, 100), text_color, default_font_size);
-  float load_width = load.length()*default_font_size*default_font_aspect_ratio+margin;
-  load_button = new rectButton("load_button", load, 
-    (width/2-margin-load_width/2)*zoom-xo, (4*height/6-5*default_font_size)*zoom-yo, 
-    load_width, button_height, color(45, 60, 90), text_color, default_font_size);
+  textAlign(CENTER, CENTER); fill(text_color); textSize(default_font_size); 
+  text(start, (width/2-margin-start_width/2)*zoom-xo, (2*height/6-5*default_font_size)*zoom-yo);
+  // start_button = new rectButton("start_button", start, 
+    // (width/2-margin-start_width/2)*zoom-xo, (2*height/6-5*default_font_size)*zoom-yo, 
+    // start_width, button_height, color(100), text_color, default_font_size); 
+  //start_button = new rectButton("start_button", start, 
+  //  (width/2-margin-start_width/2)*zoom-xo, (2*height/6-5*default_font_size)*zoom-yo, 
+  //  start_width, button_height, color(45, 20, 100), text_color, default_font_size); 
+  float scratch_width = scratch.length()*default_font_size*default_font_aspect_ratio+margin;
+  scratch_button = new rectButton("scratch_button", scratch, 
+    (width/2+margin+scratch_width/2)*zoom-xo, (2.5*height/6-5*default_font_size)*zoom-yo, 
+    scratch_width, button_height, color(45, 20, 100), text_color, default_font_size); 
+  // float init_width = init.length()*default_font_size*default_font_aspect_ratio+margin;
+  // init_button = new rectButton("init_button", init, 
+    // (width/2-margin-init_width/2)*zoom-xo, (3*height/6-5*default_font_size)*zoom-yo, 
+    // init_width, button_height, color(45, 40, 100), text_color, default_font_size);
+  float file_width = file.length()*default_font_size*default_font_aspect_ratio+margin;
+  file_button = new rectButton("file_button", file, 
+    (width/2+margin+file_width/2)*zoom-xo, (3*height/6-5*default_font_size)*zoom-yo, 
+    file_width, button_height, color(45, 40, 100), text_color, default_font_size);
+  //float load_width = load.length()*default_font_size*default_font_aspect_ratio+margin;
+  //load_button = new rectButton("load_button", load, 
+  //  (width/2-margin-load_width/2)*zoom-xo, (4*height/6-5*default_font_size)*zoom-yo, 
+  //  load_width, button_height, color(45, 60, 90), text_color, default_font_size);
   float manual_width = manual.length()*default_font_size*default_font_aspect_ratio+margin;
   manual_button = new rectButton("manual_button", manual, 
     (width/2+margin+manual_width/2)*zoom-xo, (4*height/6-5*default_font_size)*zoom-yo, 
@@ -69,9 +87,17 @@ void initial_page_setup() {
 
 void initialization_choice() {
   // rectMode(RIGHT);
-  start_button.draw_rectButtonCenter();
-  init_button.draw_rectButtonCenter();
-  load_button.draw_rectButtonCenter();
+  // start_button.draw_rectButtonCenter();
+  float start_width = start.length()*default_font_size*default_font_aspect_ratio+margin;
+  textAlign(CENTER, CENTER); fill(text_color); textSize(default_font_size); 
+  text(start, (width/2-margin-start_width/2)*zoom-xo, (2.5*height/6-5*default_font_size)*zoom-yo);
+  scratch_button.draw_rectButtonCenter();
+  // init_button.draw_rectButtonCenter();
+  file_button.draw_rectButtonCenter();
+  float load_width = load.length()*default_font_size*default_font_aspect_ratio+margin;
+  textAlign(CENTER, CENTER); fill(text_color); textSize(default_font_size); 
+  text(load, (width/2-margin-load_width/2)*zoom-xo, (4*height/6-5*default_font_size)*zoom-yo);
+  // load_button.draw_rectButtonCenter();
   manual_button.draw_rectButtonCenter();
   propp_button.draw_rectButtonCenter();
   constraints_sculpture_button.draw_rectButtonCenter();
@@ -87,7 +113,7 @@ void nav_edt_setup() { // nav/edt button goes on the top-right corner
   float button_height = top_offset;
   float button_width = right_offset;
   // String[] split_string_into_lines (String s, float line_size)
-  String[] lines = split_string_into_lines (nav_text, button_width);
+  String[] lines = split_string_into_lines (nav_text, button_width); 
   float font_size = determine_font_size(lines, default_font_aspect_ratio, button_width, button_height);
   nav_button = new rectButton("nav_button", nav_text, 
     (width - right_offset/2)/zoom-xo, (top_offset/2)/zoom-yo, 
@@ -99,6 +125,7 @@ void nav_edt_setup() { // nav/edt button goes on the top-right corner
     button_width, button_height, nav_edt_color, select_text_color, font_size); 
 }
 
+imgButton sg_button, twine_button, twine_banner_button;;
 
 void update_flash_iter() { 
   if (flash_iter==0) {flash_iter++; flash_iter_up=1;};
@@ -258,6 +285,7 @@ void generic_graph_keyPressed() {
     else if (keyCode == DOWN) {yo=yo-margin;}
     else if (keyCode == RIGHT) {xo=xo-margin;}
     else if (keyCode == LEFT) {xo=xo+margin;}
+  } else if (key == ESC) {key = 0; showMessageDialog(null, "Press q to exit!!!", "Alert", ERROR_MESSAGE);
   } else if (key == '+') {zoom += .03;
   } else if (key == '-') {zoom -= .03;
   } else if (key == 32) {zoom = 1; xo = width/2; yo = height/2;
@@ -341,7 +369,7 @@ void generic_graph_keyPressed() {
         i_move = -1; // CREDITS
       } else {
         i_move = i_select_node; i_move_node=nodes[i_move]; // cp5.hide(); // tags_checkbox.hide(); // tags_checkbox.deactivateAll();
-        i_move_node.x= mouseX*zoom-xo; i_move_node.y= mouseY*zoom-yo;
+        i_move_node.x= mouseX/zoom-xo; i_move_node.y= mouseY/zoom-yo;
       }
     }; // end if mousePressed  
     if (i_move_node!=null) {
@@ -376,7 +404,7 @@ void display_help() {
     rect((size_x/2)/zoom-xo, (size_y/2)/zoom-yo, help_width, help_height);
     float x = ((size_x/2)/zoom-xo) - help_width/2;
     float y_base = (size_y/2)/zoom-yo - help_height/2;
-    text_setup(); 
+    text_settings(); 
     for (int i=0; i<help_lines.length;i++) {
       fill(0,0,0); textAlign(LEFT,TOP);
       text(help_lines[i], x, y_base+i*default_font_size); //, help_width, default_font_size);

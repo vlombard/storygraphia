@@ -4,11 +4,13 @@ int size_x= 1280; // 640; //  1280;
 int size_y= 760; // 380; // 760;
 float margin = 5; // margin for separation of graphical objects
 float top_offset = size_y/20; 
-float left_offset = top_offset;
+float left_offset = size_x/20;;
 float right_offset = size_x/20;
 float bottom_offset = size_y/20; 
 float actual_width = size_x - (left_offset+right_offset);
 float actual_height = size_y - top_offset;
+float title_width = actual_width - (left_offset+right_offset);
+float title_height = top_offset;
 float x_credits = size_x/2; 
 float y_credits = top_offset;
 // TRANSLATE AND ZOOM
@@ -44,12 +46,20 @@ void color_setup() {
 
 // HEADER
 void draw_header() {
-  stroke(edge_color); fill(node_color); rectMode(CENTER); 
-  int s = (int) top_offset-2; textSize(s); textFont(default_font_type, s);   
+  stroke(edge_color); 
+  fill(node_color); 
+  rectMode(CENTER); 
+  int s = (int) top_offset-2; textSize(s); textFont(default_font_type, s); 
+  
+  sg_button.draw_imgButtonCenter(); 
+  twine_button.draw_imgButtonCenter();
+  // twine_banner_button.draw_imgButtonCenter();
+  
   line((x_credits-(graph_name.length()/2)*default_font_aspect_ratio*s)/zoom-xo, top_offset/zoom-yo, 
        (x_credits+(graph_name.length()/2)*default_font_aspect_ratio*s)/zoom-xo, top_offset/zoom-yo);
   textAlign(CENTER,DOWN); fill(text_color);
-  text(graph_name, x_credits/zoom-xo, y_credits/zoom-yo);
+  // text(graph_name, x_credits/zoom-xo, y_credits/zoom-yo);
+  flex_write_lines_in_box(graph_name, default_font_name, default_font_aspect_ratio, "CENTER", "DOWN", x_credits/zoom-xo, y_credits/zoom-yo, title_width, title_height);
   if (modality.equals("EDT")) {nav_button.draw_rectButtonCenter();} else 
   if (modality.equals("NAV")) {edt_button.draw_rectButtonCenter();} 
 }
